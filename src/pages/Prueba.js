@@ -34,18 +34,7 @@ import 'jspdf-autotable';
 
 
 //columnas de las tablas con su identificador "field"
-const columns = [
-  { title: 'PERSONA', field: 'PERSONA' },
-  { title: 'NOMBRE COMPLETO', field: 'NOMBRE_COMPLETO', },
-  { title: 'DIRECCION FISCAL', field: 'DIRECCION_FISCAL' },
-  { title: 'TIPO DOCUMENTO', field: 'TIPO_DOC', export: false },
-  { title: 'NRO DOCUMENTO', field: 'NRO_DOC' },
-  { title: 'TIPO', field: 'TIPO', export: false },
-  { title: 'PREDIAL', field: 'PREDIAL', hidden: "true" },
-  { title: 'ALCABALA', field: 'ALCABALA', hidden: "true" },
-  { title: 'VEHICULAR', field: 'VEHICULAR', hidden: "true" },
-  { title: 'LIMPIEZA', field: 'LIMPIEZA', hidden: "true" }
-];
+
 
 const baseUrl = "http://10.0.0.215:5000/api/personas";
 const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
@@ -63,8 +52,19 @@ const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
  */
 
 
-export default function Consulta(props) {
-
+export default function Prueba(props) {
+  const columns = [
+    { title: 'PERSONA', field: 'PERSONA' },
+    { title: 'NOMBRE COMPLETO', field: 'NOMBRE_COMPLETO', },
+    { title: 'DIRECCION FISCAL', field: 'DIRECCION_FISCAL' },
+    { title: 'TIPO DOCUMENTO', field: 'TIPO_DOC', export: false },
+    { title: 'NRO DOCUMENTO', field: 'NRO_DOC' },
+    { title: 'TIPO', field: 'TIPO', export: false },
+    { title: 'PREDIAL', field: 'PREDIAL', hidden: "true" },
+    { title: 'ALCABALA', field: 'ALCABALA', hidden: "true" },
+    { title: 'VEHICULAR', field: 'VEHICULAR', hidden: "true" },
+    { title: 'LIMPIEZA', field: 'LIMPIEZA', hidden: "true" }
+  ];
   const cookies = new Cookies();
   const [user1, setUser1] = useState(cookies.get('NOMBRE'));
   const [dni1, setDni1] = useState(cookies.get('CLAVE'));
@@ -915,28 +915,28 @@ export default function Consulta(props) {
       <div class="container-fluid">
         <MaterialTable
 
-          components={{
-            Actions: (props) => {
-                  return(
-                    <Button
-                      onClick={() => Swal.fire("IMPRIMIR")}
-                    >Imprimir todo</Button>
-                  );
-                },
-            Toolbar: props => (
-              <div style={{ backgroundColor: '' }}>
-                <MTableToolbar {...props} />
-                {/* <div style={{padding: '0px 10px'}}>
-              <Chip label="PREDIA" color="secondary" style={{marginRight: 5}}/>
-              <Chip label="ALCABA" color="secondary" style={{marginRight: 5}}/>
-              <Chip label="LIMPPU" color="secondary" style={{marginRight: 5}}/>
-              <Chip label="IMPVEH" color="secondary" style={{marginRight: 5}}/>
+          // components={{
+          //   Actions: (props) => {
+          //         return(
+          //           <Button
+          //             onClick={() => Swal.fire("IMPRIMIR")}
+          //           >Imprimir todo</Button>
+          //         );
+          //       },
+          //   Toolbar: props => (
+          //     <div style={{ backgroundColor: '' }}>
+          //       <MTableToolbar {...props} />
+          //       {/* <div style={{padding: '0px 10px'}}>
+          //     <Chip label="PREDIA" color="secondary" style={{marginRight: 5}}/>
+          //     <Chip label="ALCABA" color="secondary" style={{marginRight: 5}}/>
+          //     <Chip label="LIMPPU" color="secondary" style={{marginRight: 5}}/>
+          //     <Chip label="IMPVEH" color="secondary" style={{marginRight: 5}}/>
     
-            </div> */}
-              </div>
+          //   </div> */}
+          //     </div>
 
-            )
-          }}
+          //   )
+          // }}
 
           icons={tableIcons}
           columns={columns}

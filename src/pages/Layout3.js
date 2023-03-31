@@ -106,16 +106,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Layout(props) {
+export default function Layout3(props) {
     const navigate = useNavigate();
     const [user, setUser] = useState(cookies.get('NOMBRE'));
     const [dni, setDni] = useState(cookies.get('CLAVE'));
-    const [cont, setCont] = useState(cookies.get('CONTRIBUYENTE'));
+    // const [cont, setCont] = useState(cookies.get('CONTRIBUYENTE'));
 
-    console.log("hola")
+    // console.log("hola")
     console.log(user)
     console.log(dni)
-    console.log(cont)
+    // console.log(cont)
 
     const cerrarSesion = () => {
         console.log(cookies.get('id'));
@@ -181,7 +181,7 @@ export default function Layout(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Bienvenido rentas <b> {user}</b> {dni} {cont} - Al Sistema de Constancias de No Deudor 
+                        Bienvenido Rentas <b> {user}</b> {dni}- Al Sistema de Constancias de No Deudor 
                     </Typography>
                     {/*  <IconButton color="inherit"> */}
                     {/* Aqui iria Cerrar sesion gozuu */}

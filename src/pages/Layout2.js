@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Layout(props) {
+export default function Layout2(props) {
     const navigate = useNavigate();
     const [user, setUser] = useState(cookies.get('NOMBRE'));
     const [dni, setDni] = useState(cookies.get('CLAVE'));

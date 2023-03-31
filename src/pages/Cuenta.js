@@ -900,9 +900,7 @@ export default function Cuenta(props) {
           <div class="row">
 
             <br></br>
-            <div>
-
-            </div>
+            
 
             {/*  <button className="btn btn-primary" onClick={() => buscar()}>Consultar</button> */}
 
@@ -910,7 +908,9 @@ export default function Cuenta(props) {
         </div>
 
       </div>
-
+      <div>
+            <Button style={{backgroundColor: 'orange'}} onClick={()=>console.log("imprimir todos")}>Imprimir todos</Button>
+            </div>
 
       <div class="container-fluid">
         <MaterialTable
@@ -937,15 +937,18 @@ export default function Cuenta(props) {
 
           //   )
           // }}
-
+          
           icons={tableIcons}
           columns={columns}
           data={data}
           title={'Selecciona la persona'}
-
+           
           actions={[
-
+           
+            
+           
             {
+              
               icon: () => <RemoveRedEye />,
               tooltip: 'Ver detalles',
               onClick: (event, rowData) => Swal.fire({
@@ -1027,6 +1030,8 @@ export default function Cuenta(props) {
               
               render: (rowData) => {
                 return <PanelTable listapersonas={rowData.notarias} />;
+                
+                
               }
             }
           ]}
