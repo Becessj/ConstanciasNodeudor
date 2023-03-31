@@ -1,0 +1,29 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://10.0.0.215:5000",
+      "sslPort": 0
+    },
+    "iisExpress": {
+      "applicationUrl": "http://10.0.0.215/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    },
+    "Notaria": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Clave": "Valor"
+      },
+      "applicationUrl": "http://10.0.0.215:5000"
+    }
+  }
+}

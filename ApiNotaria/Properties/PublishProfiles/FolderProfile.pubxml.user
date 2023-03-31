@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\buzon\ModuloNotaria\ApiNotaria\bin\Release\netcoreapp3.1</_PublishTargetUrl>
+    <History>True|2023-03-09T20:13:29.0449013Z;True|2023-03-09T15:07:14.8064945-05:00;False|2023-03-09T15:05:19.5643161-05:00;False|2023-03-09T15:04:19.5217131-05:00;True|2023-03-01T14:44:57.8110196-05:00;True|2023-02-27T13:03:46.5360032-05:00;True|2022-10-24T12:51:19.1287847-05:00;</History>
+  </PropertyGroup>
+</Project>
