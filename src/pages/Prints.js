@@ -32,10 +32,12 @@ export default function Prints() {
   const [impresiones, setImpresiones] = useState(null);
   const [fecha, setFecha] = useState(null);
   // const [conta, setConta] = useState(cookies.get('CONTRIBUYENTE'));
+  // const [cont1, setCont1] = useState(cookies.get('CONTRIBUYENTE'));
+  
   const classes = useStyles();
   const cookies = new Cookies();
   const conteos=async()=>{
-    await axios.get(UrlConteos+`/${cookies.get('id')}`)
+    await axios.get(UrlConteos+`/${cookies.get('CONTRIBUYENTE')}`)
     .then(response=>{
       return response.data;
     }).then(response=>{

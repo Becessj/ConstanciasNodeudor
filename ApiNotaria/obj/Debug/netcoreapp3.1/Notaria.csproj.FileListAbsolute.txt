@@ -365,7 +365,6 @@ D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\staticwebassets\Notari
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\staticwebassets\Notarios1.StaticWebAssets.xml
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\scopedcss\bundle\Notaria.styles.css
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.RazorTargetAssemblyInfo.cache
-D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.csproj.CopyComplete
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notarios1.dll
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notarios1.pdb
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.genruntimeconfig.cache

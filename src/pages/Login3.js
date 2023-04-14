@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login3(props) {
   const navigate = useNavigate();
-  const baseUrl = "http://10.0.0.215:5000/api/contribuyentes";
+  const baseUrl = "http://10.0.0.215:5000/api/rentas";
   const cookies = new Cookies();
   const [form, setForm] = useState({
     username: '',
@@ -86,7 +86,7 @@ function Login3(props) {
           cookies.set('NOMBRE', respuesta.NOMBRE, { path: '/' });
           cookies.set('id', response[0].USUARIO, { path: '/' });
 
-          cookies.set('CONTRIBUYENTE', respuesta.CONTRIBUYENTE, { path: '/' });
+          cookies.set('USUARIO', respuesta.USUARIO, { path: '/' });
           cookies.set('CLAVE', respuesta.CLAVE, { path: '/' });
 
 
@@ -135,7 +135,7 @@ function Login3(props) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h6">
-            hola soy el nuevo login de notarios
+            CONSULTA RENTAS
           </Typography>
           <TextField
             variant="outlined"

@@ -26,8 +26,7 @@ export const MainListItems = (props) => {
     const cookies = new Cookies();
     const [user1, setUser1] = useState(cookies.get('NOMBRE'));
     const [dni1, setDni1] = useState(cookies.get('CLAVE'));
-    const [cont1, setCont1] = useState(cookies.get('CONTRIBUYENTE'));
-    console.log("list")
+    
     
     const [data, setData] = useState([]);
     var user = '';
@@ -35,7 +34,7 @@ export const MainListItems = (props) => {
     const [form, setForm] = useState({
         dni: dni1,//dni inicializada con el coockie guardado
         nombre: user1,//nombre inicializada con el coockie guardado
-        contribuyente: cont1//contribuyente inicializada con el coockie guardado
+        
     });
 
     const handleChange = e => {
@@ -79,9 +78,9 @@ export const MainListItems = (props) => {
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Consulta" />
+                <ListItemText primary="panel xd" />
             </ListItem>
-            <ListItem button onClick={() => {navigate("/Prueba")}}>
+            <ListItem button onClick={() => {navigate("/prueba")}}>
             
                 <ListItemIcon>
                     <BarChartIcon />

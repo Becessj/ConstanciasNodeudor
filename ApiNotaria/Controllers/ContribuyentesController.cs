@@ -21,10 +21,10 @@ namespace Notaria.Controllers
         }
         // GET: api/Contrubuyentes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rentas>>> Getrentas()
+        public async Task<ActionResult<IEnumerable<Contribuyentes>>> Getcontribuyentes()
         {
             //return await _context.Usuarios.ToListAsync();
-            return await _context.Rentas.ToListAsync();
+            return await _context.Contribuyentes.ToListAsync();
         }
 
         [HttpGet("{username}/{password}")]

@@ -1,5 +1,5 @@
 /* import { makeStyles } from '@material-ui/core/styles'; */
-import React, { useState, useEffect  } from 'react';
+import React, { useState } from 'react';
 import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -17,66 +17,90 @@ import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Grid from "@material-ui/core/Grid";
 //import Chip from "@material-ui/core/Chip";
 
-import { makeStyles } from '@material-ui/styles';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TabList from '@material-ui/core/Tab';
-import TabPanel from '@material-ui/core/Tab';
-
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@mui/material/Box';
-// import 'react-tabs/style/react-tabs.css';
-
 import 'jspdf-autotable';
 
-
-//columnas de las tablas con su identificador "field"
-const columns = [
-  { title: 'PERSONA', field: 'PERSONA' },
-  { title: 'NOMBRE COMPLETO', field: 'NOMBRE_COMPLETO', },
-  { title: 'DIRECCION FISCAL', field: 'DIRECCION_FISCAL' },
-  { title: 'TIPO DOCUMENTO', field: 'TIPO_DOC', export: false },
-  { title: 'NRO DOCUMENTO', field: 'NRO_DOC' },
-  { title: 'TIPO', field: 'TIPO', export: false },
-  { title: 'PREDIAL', field: 'PREDIAL', hidden: "true" },
-  { title: 'ALCABALA', field: 'ALCABALA', hidden: "true" },
-  { title: 'VEHICULAR', field: 'VEHICULAR', hidden: "true" },
-  { title: 'LIMPIEZA', field: 'LIMPIEZA', hidden: "true" }
-];
 
 const baseUrl = "http://10.0.0.215:5000/api/personas";
 const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
 const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
-const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
 
+/* function preventDefault(event) {
+  event.preventDefault();
+} */
 
-/**tabs**/
+/* const useStyles = makeStyles((theme) => ({
+  seeMore: {
+    marginTop: theme.spacing(3),
+  },
+})); */
+/* const customStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    width: state.selectProps.width,
+    borderBottom: '1px dotted pink',
+    color: state.selectProps.menuColor,
+    padding: 20,
+  }),
 
+  control: (_, { selectProps: { width }}) => ({
+    width: width
+  }),
 
-/**
- *************************************************
- **funcion para consultar datos de contribuyente**
- *************************************************
- */
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = 'opacity 300ms';
 
+    return { ...provided, opacity, transition };
+  }
+} */
+/* const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '20%', // Fix IE 11 issue.
+    marginTop: theme.spacing(2),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+})); */
 export default function Consulta(props) {
-
-  const cookies = new Cookies();
-  const [user1, setUser1] = useState(cookies.get('NOMBRE'));
-  const [dni1, setDni1] = useState(cookies.get('CLAVE'));
-  const [cont1, setCont1] = useState(cookies.get('CONTRIBUYENTE'));
-
-  const [generador, setgenerador] = useState('PREDIA');
-
-
-
-
-  console.log("box", generador)
-
+  const columns = [
+    { title: 'PERSONA', field: 'PERSONA' },
+    { title: 'NOMBRE COMPLETO', field: 'NOMBRE_COMPLETO', },
+    { title: 'DIRECCION FISCAL', field: 'DIRECCION_FISCAL' },
+    { title: 'TIPO DOCUMENTO', field: 'TIPO_DOC', export: false },
+    { title: 'NRO DOCUMENTO', field: 'NRO_DOC' },
+    { title: 'TIPO', field: 'TIPO', export: false },
+    { title: 'PREDIAL', field: 'PREDIAL', hidden: "true" },
+    { title: 'ALCABALA', field: 'ALCABALA', hidden: "true" },
+    { title: 'VEHICULAR', field: 'VEHICULAR', hidden: "true" },
+    { title: 'LIMPIEZA', field: 'LIMPIEZA', hidden: "true" }
+  ];
+  //const [contri, setContri] = useState("");
+  const [generador, setgenerador] = useState("PREDIA");
+  //const [texto, settexto] = useState("");
+  //const [startId, setStartId] = useState(100000);
+  // const [endId, setEndId] = useState(100015);
+  //const [value, setValue] = useState('');
+  /*  const handleSelect = (e) => {
+     console.log(e);
+     setValue(e)
+     setgenerador(e)
+     console.log(generador)
+   } */
   const SIZE = "300x300";
   const baseURL = "FIRMADO-POR";
   const doc = new jsPDF('p', 'pt', 'a4', true, {
@@ -92,57 +116,31 @@ export default function Consulta(props) {
 
   const [data, setData] = useState([]);
   var user = '';
-  var [obsrec, setobsrec] = useState("");
-  
-
-  /***
-   ***************************************
-   ***inicializar variables de busqueda***
-   ***************************************
-   */
+  //const [personas, setPersonas] = useState([]);
+  //const [nombrecompleto, setnombrecompleto] = useState("");
+  //const [dni, setDni] = useState('');
+  //const [generador, setGenerador] = useState('');
+  //const [user, setUser] = useState("");
+  //const classes = useStyles();
   const [form, setForm] = useState({
-    dni: dni1,//dni inicializada con el coockie guardado
-    nombre: user1,//nombre inicializada con el coockie guardado
-    contribuyente: cont1//contribuyente inicializada con el coockie guardado
+    dni: '%',
+    nombre: '%',
+    contribuyente: '%'
   });
 
-  /**
-   ***************************************
-   **
-   ***************************************
-   **/
-  /***tabs****/
-  const [value, setValue] = React.useState('PREDIA');
-  console.log("tab", value);
-
-
-
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
-  console.log(value)
-  // const handleChange2 = e => {
-  //   const newValue2  = e.target;
-  //   setValue(newValue2);
-  //   console.log(newValue2);
-
-  // }
-  //////////////////////////////////////////////
   const handleChange = e => {
     const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value
     });
-    
     console.log(name);
-    console.log(value);
 
   }
-  // const [valor, setValor] = React.useState("PREDIAL");
   /*  const handleSelect = (e) => {
      console.log(e);
    } */
+  const cookies = new Cookies();
 
   const audit = (persona, carpeta, generador) => {
     axios.post(UrlAuditorias, {
@@ -153,36 +151,8 @@ export default function Consulta(props) {
     }
     )
   }
-  /* 
-    const recibo = (contribuyente, generador, dato) => {
-       axios.get(UrlRecibos + `/${contribuyente}/${generador}/${dato}`)
-    
-          .then(response => {
-          
-            console.log(response.data);
-            console.log(response[1].ESTADO)
-          })
-    } */
-  function recibos(contribuyente, generador, dato) {
-    console.log(contribuyente + '  ' + generador + '  ' + dato)
-    axios.get(UrlRecibos + '/' + contribuyente + '/' + generador + '/' + dato)
-      .then(response => {
-        //this.response = response.data
-        console.log("estado = "+response.data[0]['ESTADO'])
-        obsrec= response.data[0]['ESTADO'];
-        setobsrec(obsrec)
-   
-        //setobsrec(obsrec);
-        //obsrecibo = response.data[0].ESTADO
-      })
-     
-
-
-
-
-  }
-  const buscar = async (nombre, contribuyente) => {
-    if (nombre === '%' && contribuyente === '%') {
+  const buscar = async (dni, nombre, contribuyente) => {
+    if (dni === '%' && nombre === '%' && contribuyente === '%') {
       Swal.fire(
         'CAMPOS INCOMPLETOS',
         'Porfavor, completa algún campo',
@@ -190,7 +160,7 @@ export default function Consulta(props) {
       )
     }
     else {
-      await axios.get(baseUrl + `/%/${form.nombre}/${form.contribuyente}`)
+      await axios.get(baseUrl + `/${form.dni}/${form.nombre}/${form.contribuyente}`)
         /*await axios.get(baseUrl)*/
         .then(response => {
           let timerInterval
@@ -212,23 +182,23 @@ export default function Consulta(props) {
           }).then((result) => {
             /* Read more about handling dismissals below */
             if (result.dismiss === Swal.DismissReason.timer) {
-              if (response.data.length > 0) {
-                setData(response.data);
-                console.log(response.data);
-              }
-              else {
-                console.log(response.data);
-                Swal.fire(
-                  'Error!',
-                  'Este contribuyente no tiene cuentas generadas',
-                  'error'
-                ).then((result) => {
-                  window.location.reload(true);
-                });;
-              }
+
             }
           })
-       
+          if (response.data.length > 0) {
+            setData(response.data);
+            console.log(response.data);
+          }
+          else {
+            console.log(response.data);
+            Swal.fire(
+              'Error!',
+              'Este contribuyente no tiene cuentas generadas',
+              'error'
+            ).then((result) => {
+              window.location.reload(true);
+            });;
+          }
         }).catch(error => {
           //console.log(error);
           Swal.fire(
@@ -239,10 +209,7 @@ export default function Consulta(props) {
 
         })
     }
-    // return buscar;
   }
-
-  ///ME QUEDE AQUI :V
 
   const PanelTable = ({ listapersonas }) => {
     //console.log(generador);
@@ -262,8 +229,7 @@ export default function Consulta(props) {
       { title: "GENERADOR", field: "GENERADOR" },
       { title: "OBS_UBICACION", field: "OBS_UBICACION" },
       { title: "TEXTO", field: "TEXTO", hidden: "true" }];
-    //console.log(listapersonas)
-    
+    console.log(listapersonas)
     return (
       <MaterialTable
         localization={{
@@ -293,7 +259,6 @@ export default function Consulta(props) {
             pdf: false,
           },
           sorting: true,
-          exportButton: true,
           showTitle: false,
           draggable: false,
           headerStyle: { backgroundColor: "#ffefde" },
@@ -319,10 +284,8 @@ export default function Consulta(props) {
                 confirmButtonText: 'Si, imprimir'
               }).then((result) => {
                 if (result.isConfirmed) {
-                  //recibos(rowData.PERSONA, generador, rowData.PREDIO_U); 
                   verificarDeuda(rowData.PERSONA, rowData.CARPETAPREDIAL, rowData.NOMBRE_COMPLETO, rowData.PREDIO_U, rowData.OBS, rowData.HASTA, rowData.RECIBO, rowData.F_PAGO, generador, rowData.OBS_UBICACION, rowData.TEXTO)
-                  
-                  //recibos(rowData.PERSONA,generador,rowData.PREDIO_U)
+
                 }
               })
           }
@@ -379,8 +342,7 @@ export default function Consulta(props) {
       />
     );
   };
-  
-
+  /* 
     const changeGenerator = (generator) => {
       var generador;
       switch (generator) {
@@ -400,7 +362,7 @@ export default function Consulta(props) {
           break;
       }
       return generador;
-    }
+    } */
 
   const changeSN = (value) => {
     var valor;
@@ -447,12 +409,8 @@ export default function Consulta(props) {
     } */
 
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
-    /* obsrec = recibos('00012', 'PREDIA', 'PU00001A'); */
-    recibos(persona, generador, predioU); 
 
-    if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec ==="P") {
-      console.log(obsrec)
-      console.log("observacion = " + obsrec)
+    if (obs === "EL CONTRIBUYENTE NO ADEUDA") {
       let timerInterval
       Swal.fire({
         title: 'Estamos generando la impresión',
@@ -487,7 +445,7 @@ export default function Consulta(props) {
     else {
       Swal.fire({
         title: "<b>NO PUEDES IMPRIMIR</b>",
-        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
+        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta,
         confirmButtonText: "Cancelar",
         icon: "error"
       })
@@ -546,7 +504,7 @@ export default function Consulta(props) {
     doc.setProperties({
       title: 'CONSTANCIA DE NO DEUDOR',
       subject: 'Esta es una copia legitima del documento extraido del sistema',
-      author: 'Municipalidad Distrital de Santiago',
+      author: 'Municipalidad Distrital de santiago',
       keywords: 'constancia no deudor, constancia, santiago',
       creator: 'MDS2023'
     });
@@ -554,14 +512,14 @@ export default function Consulta(props) {
     doc.setFont("Arial", "bold");
     doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
     doc.setFont("Arial", "normal");
-    doc.text(150, 818, 'Dirección: AV. RUIZ NRO. S/N - SANTIAGO / CUSCO')
+    doc.text(150, 818, 'Dirección: AV. RUIZ CARO NRO. S/N - SANTIAGO / CUSCO')
     doc.text(150, 826, 'Teléfono: S/N')
     //var date = new Date();
     //var filename = "MPU-" + predioU + ".pdf";
     //doc.save(filename);
     doc.autoPrint();
     window.open(doc.output('bloburl'), '_blank');
-    //window.location.reload(true);
+    window.location.reload(true);
   }
   const imprimirVehicular = (persona, nombrecompleto, predioU, obs, texto) => {
 
@@ -574,68 +532,7 @@ export default function Consulta(props) {
     doc.setFontSize(8);
     doc.setDrawColor(0, 0, 0);
     doc.text(100, 30, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO')
-    doc.text(100, 45, 'Dirección: AV. RUIZ NRO. S/N')
-    doc.text(100, 60, 'RUC: 20147567449')
-    //doc.setFont('courier');
-    doc.setFontSize(18);
-    doc.setFont("Arial", "bold");
-    doc.text(180, 170, 'CONSTANCIA DE NO DEUDOR', { maxWidth: 1024, align: "justify" })
-    //doc.text("This is example paragraph   1", 11,13,).setFontSize(8).setFont(undefined, 'bold');
-    doc.setFont("Arial", "normal");
-    //doc.text("This is example paragraph      2", 11,13,).setFontSize(8).setFont(undefined, 'normal');
-    doc.setFontSize(12);
-    //doc.internal.write(0, "Tw") // <- add this
-    /* doc.text('Que, la administrada ' + nombrecompleto +texto+ obs_ub+', se encuentra inscrita como ' +
-       'contribuyente en el registro predial que maneja la Administración Tributaria de la MUNICIPALIDAD DISTRITAL DE SANTIAGO con Carpeta N°' +
-       carpeta + ' por el código del predio: ' + predioU + ' ubicado en el distrito de SANTIAGO, Provincia y Departamento del Cusco,' +
-       ' habiendo cancelado el ' + changeGenerator(generador) + ' del Ejercicio Gravable ' + hasta +
-       ' con recibo de pago N° ' + recibo + ' en fecha ' + changeDateTime(f_pago) + ' y haciendo constar que: NO ADEUDA el ' +
-       changeGenerator(generador) + ' desde la fecha que es contribuyente hasta la actualidad.', 100, 250, { maxWidth: 400, align: 'justify' });
-     //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })*/
-    doc.text(texto, 100, 250, { maxWidth: 400, align: 'justify' });
-    //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })
-    doc.text('Cusco,' + dateToday(), 335, 465, { maxWidth: 2300, align: 'justify' })
-
-    doc.setLineWidth(1);
-    doc.setDrawColor(255, 0, 0);
-    //line()
-    doc.setFontSize(8);
-    doc.text(142, 520, timeToday())
-    doc.setFontSize(6);
-    doc.line(28, 800, 570, 800);
-    // Optional - set properties on the document
-    doc.setProperties({
-      title: 'CONSTANCIA DE NO DEUDOR',
-      subject: 'Esta es una copia legitima del documento extraido del sistema',
-      author: 'Municipalidad Distrital de Santiago',
-      keywords: 'constancia no deudor, constancia, santiago',
-      creator: 'MDS2023'
-    });
-
-    doc.setFont("Arial", "bold");
-    doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
-    doc.setFont("Arial", "normal");
-    doc.text(150, 818, 'Dirección: AV. RUIZ NRO. S/N - SANTIAGO / CUSCO')
-    doc.text(150, 826, 'Teléfono: S/N')
-    //var date = new Date();
-    //var filename = "MPU-" + predioU + ".pdf";
-    //doc.save(filename);
-    doc.autoPrint();
-    window.open(doc.output('bloburl'), '_blank');
-    window.location.reload(true);
-  }
-  const imprimirLimpieza = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto) => {
-
-    const qrSize = 110;
-    let imageData = new Image(300, 300);
-    imageData.src = getImageSrc(persona, nombrecompleto, predioU, obs);
-    doc.addImage(imageData, "PNG", 100, 410, qrSize, qrSize);
-    doc.setFontSize(16);
-    doc.addImage(logo, 'JPEG', 20, 5);
-    doc.setFontSize(8);
-    doc.setDrawColor(0, 0, 0);
-    doc.text(100, 30, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO')
-    doc.text(100, 45, 'Dirección: AV. RUIZ NRO. S/N')
+    doc.text(100, 45, 'Dirección: AV. RUIZ CARO NRO. S/N')
     doc.text(100, 60, 'RUC: 20154432516')
     //doc.setFont('courier');
     doc.setFontSize(18);
@@ -676,7 +573,68 @@ export default function Consulta(props) {
     doc.setFont("Arial", "bold");
     doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
     doc.setFont("Arial", "normal");
-    doc.text(150, 818, 'Dirección: AV. RUIZ NRO. S/N - SANTIAGO / CUSCO')
+    doc.text(150, 818, 'Dirección: AV. RUIZ CARO NRO. S/N - SANTIAGO / CUSCO')
+    doc.text(150, 826, 'Teléfono: S/N')
+    //var date = new Date();
+    //var filename = "MPU-" + predioU + ".pdf";
+    //doc.save(filename);
+    doc.autoPrint();
+    window.open(doc.output('bloburl'), '_blank');
+    window.location.reload(true);
+  }
+  const imprimirLimpieza = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto) => {
+
+    const qrSize = 110;
+    let imageData = new Image(300, 300);
+    imageData.src = getImageSrc(persona, nombrecompleto, predioU, obs);
+    doc.addImage(imageData, "PNG", 100, 410, qrSize, qrSize);
+    doc.setFontSize(16);
+    doc.addImage(logo, 'JPEG', 20, 5);
+    doc.setFontSize(8);
+    doc.setDrawColor(0, 0, 0);
+    doc.text(100, 30, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO')
+    doc.text(100, 45, 'Dirección: AV. RUIZ CARO NRO. S/N')
+    doc.text(100, 60, 'RUC: 20154432516')
+    //doc.setFont('courier');
+    doc.setFontSize(18);
+    doc.setFont("Arial", "bold");
+    doc.text(180, 170, 'CONSTANCIA DE NO DEUDOR', { maxWidth: 1024, align: "justify" })
+    //doc.text("This is example paragraph   1", 11,13,).setFontSize(8).setFont(undefined, 'bold');
+    doc.setFont("Arial", "normal");
+    //doc.text("This is example paragraph      2", 11,13,).setFontSize(8).setFont(undefined, 'normal');
+    doc.setFontSize(12);
+    //doc.internal.write(0, "Tw") // <- add this
+    /* doc.text('Que, la administrada ' + nombrecompleto +texto+ obs_ub+', se encuentra inscrita como ' +
+       'contribuyente en el registro predial que maneja la Administración Tributaria de la MUNICIPALIDAD DISTRITAL DE SANTIAGO con Carpeta N°' +
+       carpeta + ' por el código del predio: ' + predioU + ' ubicado en el distrito de SANTIAGO, Provincia y Departamento del Cusco,' +
+       ' habiendo cancelado el ' + changeGenerator(generador) + ' del Ejercicio Gravable ' + hasta +
+       ' con recibo de pago N° ' + recibo + ' en fecha ' + changeDateTime(f_pago) + ' y haciendo constar que: NO ADEUDA el ' +
+       changeGenerator(generador) + ' desde la fecha que es contribuyente hasta la actualidad.', 100, 250, { maxWidth: 400, align: 'justify' });
+     //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })*/
+    doc.text(texto, 100, 250, { maxWidth: 400, align: 'justify' });
+    //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })
+    doc.text('Cusco,' + dateToday(), 335, 465, { maxWidth: 2300, align: 'justify' })
+
+    doc.setLineWidth(1);
+    doc.setDrawColor(255, 0, 0);
+    //line()
+    doc.setFontSize(8);
+    doc.text(142, 520, timeToday())
+    doc.setFontSize(6);
+    doc.line(28, 800, 570, 800);
+    // Optional - set properties on the document
+    doc.setProperties({
+      title: 'CONSTANCIA DE NO DEUDOR',
+      subject: 'Esta es una copia legitima del documento extraido del sistema',
+      author: 'Municipalidad Distrital de Santiago',
+      keywords: 'constancia no deudor, constancia, santiago',
+      creator: 'MDS2023'
+    });
+
+    doc.setFont("Arial", "bold");
+    doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
+    doc.setFont("Arial", "normal");
+    doc.text(150, 818, 'Dirección: RUIZ CARO NRO. S/N - SANTIAGO / CUSCO')
     doc.text(150, 826, 'Teléfono: S/N')
     //var date = new Date();
     //var filename = "MPU-" + predioU + ".pdf";
@@ -690,6 +648,7 @@ export default function Consulta(props) {
     /* console.log(result)
     console.log(generador) */
     var y = new Date().getFullYear();
+    
     const newdata = data.map((item) => {
       if (item.NRO_DOC === nrodoc) {
         return { ...item, notarias: result.data }
@@ -700,7 +659,7 @@ export default function Consulta(props) {
     if (result.data <= 0) {
       Swal.fire(
         'ESPERA',
-        'El contribuyente no tiene deuda generada del '+changeGenerator(generador)+' ni pagos realizados en el año ' + y,
+        'El contribuyente no tiene deuda generada, ni pagos realizados en el año ' + y,
         'error'
       ).then((result) => {
         window.location.reload(true);
@@ -709,9 +668,12 @@ export default function Consulta(props) {
     setData(newdata)
     console.log(result.data)
   }
-    useEffect(() => {
-      buscar('%', '25304147')
-    }, []);
+  /*   useEffect(() => {
+      if (!cookies.get('id')) {
+  
+        props.history.push('./');
+      }
+    }, []); */
   //Renderiza la subtabla de la tabla principal
   /*     useEffect(() => {
         
@@ -719,127 +681,33 @@ export default function Consulta(props) {
         
       }, [persona]) */
   // const classes = useStyles();
-  const [nomb, setNomb] = useState(cookies.get('NOMBRE'));
-  const [dni, setDni] = useState(cookies.get('CLAVE'));
-  const [cont, setCont] = useState(cookies.get('CONTRIBUYENTE'));
-
 
   return (
 
 
     <>
       <Grid container justify="center">
-       
-
-
-        {/* <div className="container-fluid">
-          <AppBar position="static" color="default">
-            <Tabs
-              valor={valor}
-              onClick={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              onLoad={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-
-            >
-              <Tab label="PREDIA" />
-              <Tab label="ALCABA" />
-              <Tab label="LIMPPU" />
-              <Tab label="IMPVEH" />
-
-            </Tabs>
-          </AppBar>
-          {valor === "PREDIA" && <TabContainer>PREDIAL</TabContainer>}
-          {valor === "ALCABA" && <TabContainer>ALCABALA</TabContainer>}
-          {valor === "LIMPPU" && <TabContainer>LIMPIEZA</TabContainer>}
-          {valor === "IMPVEH" && <TabContainer>VEHICULAR</TabContainer>}
-
-        </div> */}
-        {/* <br></br> <br></br> <br></br><br></br>
         <div class="container-fluid">
-
-          <Tabs
-            sx={{ width: '100%' }}
-            value={value}
-            // onChange={handleChange2}
-            onChange={(e) => {
-              setgenerador(e.target.newValue);
-              buscar(form.nombre, form.contribuyente)
-            }}
-            
-           
-            // onChange={handleChange2}
-            // onClick={(e) => {
-            //   setgenerador(e.target.value);
-            //   buscar(form.nombre, form.contribuyente)
-            // }}
-            textColor="secondary"
-            indicatorColor="secondary"
-            aria-label="secondary tabs example"
-          >
-            <Tab value="PREDIA" label="PREDIAL" selected />
-            <Tab value="ALCABA" label="ALCABALA" />
-            <Tab value="LIMPPU" label="LIMPIEZA" />
-            <Tab value="IMPVEH" label="VEHICULAR" />
-          </Tabs>
-        </div> */}
-        {/* <div class="container-fluid">
           <br></br>
-          <Paper className="container">
-            <Tabs
-              onClick={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              onLoad={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-              centered
-            >
-              <Tab value={"PREDIA"} label="PREDIAL" selected />
-              <Tab value={"ALCABA"} label="ALCABALA" />
-              <Tab value={"LIMPPU"} label="LIMPIEZA" />
-              <Tab value={"IMPVEH"} label="VEHICULAR" />
-            </Tabs>
-          </Paper>
+          <h5><b>Selecciona el generador : </b>
+            <select
+              //style={{width: '300px'}}
+              id="fruits"
+              onChange={(e) => setgenerador(e.target.value)}
+              aria-label="Default select example"
+              class="form-control form-control-sm">
 
-        </div> */}
+              <option value="PREDIA" selected>PREDIAL</option>
+              <option value="ALCABA">ALCABALA</option>
+              <option value="LIMPPU">LIMPIEZA</option>
+              <option value="IMPVEH">VEHICULAR</option>
 
+            </select> </h5>
 
+        </div>
+        <br></br> <br></br> <br></br><br></br>
         <div className="container-fluid cew-9">
           <div className="row">
-            <div className="col-12 col-sm-6 col-md-3">
-              <label><h6><b>Seleccione el generador</b></h6></label>
-              <br /> <select
-                //style={{width: '300px'}}
-                id="fruits"
-                onChange={(e) => {
-                  setgenerador(e.target.value);
-                  buscar(form.nombre, form.contribuyente)
-                }}
-                aria-label="Default select example"
-                class="form-control form-control-sm-3">
-                <option value="PREDIA" selected >PREDIAL</option>
-                <option value="ALCABA">ALCABALA</option>
-                <option value="LIMPPU">LIMPIEZA</option>
-                <option value="IMPVEH">VEHICULAR</option>
-
-              </select> 
-              <br />
-            </div>
             <div className="col-12 col-sm-6 col-md-3">
               <label><b>DNI/RUC</b></label>
               <input
@@ -849,9 +717,15 @@ export default function Consulta(props) {
                 maxLength="11"
                 name="dni"
                 placeholder="Digita el DNI"
-                value={dni1}
-
-              />
+                onChange={handleChange}
+                onKeyPress={(ev) => {
+                  if (ev.key === 'Enter') {
+                    // Do code here
+                    buscar(form.dni, form.nombre, form.contribuyente);
+                    ev.preventDefault();
+                  }
+                }}
+                autoFocus />
               <br />
             </div>
             <div className="col-12 col-sm-6 col-md-6">
@@ -861,12 +735,19 @@ export default function Consulta(props) {
                 type="text"
                 className="form-control"
                 name="nombre"
-                placeholder={dni1}
-                value={user1}
-              />
+                placeholder="Digita los apellidos"
+                onChange={handleChange}
+                onKeyPress={(ev) => {
+
+                  if (ev.key === 'Enter') {
+                    // Do code here
+                    buscar(form.dni, form.nombre, form.contribuyente);
+                    ev.preventDefault();
+                  }
+                }} />
               <br />
             </div>
-            {/* <div className="col-12 col-sm-12 col-md-3">
+            <div className="col-12 col-sm-12 col-md-3">
 
               <label><b>CODIGO PRED.</b></label>
               <input
@@ -874,25 +755,24 @@ export default function Consulta(props) {
                 className="form-control"
                 name="contribuyente"
                 placeholder="Digita el código predial"
-                //onChange={handleChange}
-                value={cont1}
-              // onKeyPress={(ev) => {
+                onChange={handleChange}
+                onKeyPress={(ev) => {
 
-              //   if (ev.key === 'Enter') {
-              //     // Do code here
-              //     buscar(form.nombre,form.contribuyente);
-              //     ev.preventDefault();
-              //   }
-              // }} 
-
-              />
+                  if (ev.key === 'Enter') {
+                    // Do code here
+                    buscar(form.dni, form.nombre, form.contribuyente);
+                    ev.preventDefault();
+                  }
+                }} />
               <br />
-            </div> */}
-          
+            </div>
           </div>
         </div>
+        <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscar(form.dni, form.nombre, form.contribuyente)}
+        >
+          Consultar &nbsp; <FaSearch />
+        </Button>
       </Grid>
-     
       {/*  <h1>CONSTANCIA DE NO DEUDOR</h1> */}
 
       <div className="form-group">
@@ -916,13 +796,7 @@ export default function Consulta(props) {
         <MaterialTable
 
           components={{
-            Actions: (props) => {
-                  return(
-                    <Button
-                      onClick={() => Swal.fire("IMPRIMIR")}
-                    >Imprimir todo</Button>
-                  );
-                },
+
             Toolbar: props => (
               <div style={{ backgroundColor: '' }}>
                 <MTableToolbar {...props} />
@@ -1020,17 +894,16 @@ export default function Consulta(props) {
             tableLayout: "auto"
           }}
 
-          
           detailPanel={[
             {
+
               tooltip: "Ver Detalles",
-              
               render: (rowData) => {
+                // buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, '%');
                 return <PanelTable listapersonas={rowData.notarias} />;
               }
             }
           ]}
-
           onRowClick={(event, rowData, togglePanel) => {
             //console.log("LOGING -------------> ROWDATA", rowData);
             //setDni(rowData.NRO_DOC)
@@ -1038,7 +911,6 @@ export default function Consulta(props) {
             //setPersona(rowData.PERSONA)
             //console.log(persona)
             //setGenerador(generador)
-            
             buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, '%');
             togglePanel();
           }}
