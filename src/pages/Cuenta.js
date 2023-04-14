@@ -149,7 +149,7 @@ export default function Cuenta(props) {
       CONTRIBUYENTE: persona,
       PREDIO: carpeta,
       GENERADOR: generador,
-      USUARIO: cookies.get('id')
+      USUARIO: cookies.get('CONTRIBUYENTE')
     }
     )
   }
@@ -449,51 +449,51 @@ export default function Cuenta(props) {
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
     /* obsrec = recibos('00012', 'PREDIA', 'PU00001A'); */
     recibos(persona, generador, predioU); 
+      if (obs === "EL CONTRIBUYENTE NO ADEUDA") {
+        console.log(obsrec)
+        console.log("observacion = " + obsrec)
+        let timerInterval
+        Swal.fire({
+          title: 'Estamos generando la impresión',
+          html: 'Esto tomará unos <b></b> milisegundos.',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          if (generador === 'PREDIA' || generador === 'ALCABA') {
+            imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
+            audit(persona, predioU, generador, user)
+          }
+          else if (generador === 'IMPVEH') {
+            imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+            audit(persona, predioU, generador, user)
+          }
+          else {
+            imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+            audit(persona, predioU, generador, user)
+          }
+        })
+      }
+      else {
+        Swal.fire({
+          title: "<b>NO PUEDES IMPRIMIR</b>",
+          html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
+          confirmButtonText: "Cancelar",
+          icon: "error"
+        })
 
-    if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec ==="P") {
-      console.log(obsrec)
-      console.log("observacion = " + obsrec)
-      let timerInterval
-      Swal.fire({
-        title: 'Estamos generando la impresión',
-        html: 'Esto tomará unos <b></b> milisegundos.',
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading()
-          const b = Swal.getHtmlContainer().querySelector('b')
-          timerInterval = setInterval(() => {
-            b.textContent = Swal.getTimerLeft()
-          }, 100)
-        },
-        willClose: () => {
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        if (generador === 'PREDIA' || generador === 'ALCABA') {
-          imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
-          audit(persona, predioU, generador, user)
-        }
-        else if (generador === 'IMPVEH') {
-          imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-          audit(persona, predioU, generador, user)
-        }
-        else {
-          imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-          audit(persona, predioU, generador, user)
-        }
-      })
+
     }
-    else {
-      Swal.fire({
-        title: "<b>NO PUEDES IMPRIMIR</b>",
-        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
-        confirmButtonText: "Cancelar",
-        icon: "error"
-      })
-
-
-    }
+    
 
   }
   const getImageSrc = (persona, nombrecompleto, predioU, obs) => {
@@ -1044,7 +1044,7 @@ export default function Cuenta(props) {
             //console.log(persona)
             //setGenerador(generador)
             
-            buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, '%');
+            buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, 'T');
             togglePanel();
           }}
 

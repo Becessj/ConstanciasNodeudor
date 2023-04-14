@@ -43,10 +43,10 @@ namespace Notaria.Controllers
 
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.Add("@username", SqlDbType.VarChar);
+                    myCommand.Parameters.Add("@username", SqlDbType.NVarChar);
                     myCommand.Parameters["@username"].Value = username;
 
-                    myCommand.Parameters.Add("@password", SqlDbType.VarChar);
+                    myCommand.Parameters.Add("@password", SqlDbType.NVarChar);
                     myCommand.Parameters["@password"].Value = password;
 
                     myReader = myCommand.ExecuteReader();
@@ -55,7 +55,7 @@ namespace Notaria.Controllers
                     myCon.Close();
                 }
             }
-         
+            
             return new JsonResult(table);
 
         }

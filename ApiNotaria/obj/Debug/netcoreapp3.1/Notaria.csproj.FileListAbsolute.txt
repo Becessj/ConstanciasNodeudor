@@ -368,4 +368,4 @@ D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.RazorTargetAss
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notarios1.dll
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notarios1.pdb
 D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.genruntimeconfig.cache
-D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.csproj.CopyComplete
+D:\buzon\ModuloNotaria\ApiNotaria\obj\Debug\netcoreapp3.1\Notaria.csproj.AssemblyReference.cache
