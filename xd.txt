@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 xd
+=======
+Alma marcela gozo
+>>>>>>> e4907e0c0fdbd8d802a74710269eabc915dc170c

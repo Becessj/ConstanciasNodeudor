@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Notaria.Context;
-using Notaria.Models;
+using Notaria.Models;       
 using Microsoft.AspNetCore.Cors;
 
 namespace Notaria.Controllers
