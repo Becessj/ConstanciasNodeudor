@@ -27,7 +27,7 @@ export const MainListItems = (props) => {
     const [user1, setUser1] = useState(cookies.get('NOMBRE'));
     const [dni1, setDni1] = useState(cookies.get('CLAVE'));
     const [cont1, setCont1] = useState(cookies.get('CONTRIBUYENTE'));
-    console.log("list")
+    
     
     const [data, setData] = useState([]);
     var user = '';
