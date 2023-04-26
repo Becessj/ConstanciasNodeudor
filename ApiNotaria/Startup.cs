@@ -45,7 +45,7 @@ namespace Notaria
             services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy",
-                    builder => builder.WithOrigins("http://10.0.0.215:3000", "http://10.0.0.215:5000", "http://localhost:3000", "http://localhost:5000")
+                    builder => builder.WithOrigins("http://192.168.1.5:3000", "http://192.168.1.5:5000", "http://192.168.1.5:3000", "http://192.168.1.5:5000")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
@@ -77,7 +77,7 @@ namespace Notaria
             app.UseAuthentication();
             app.UseCors(options =>
             {
-                options.WithOrigins("http://10.0.0.215:3000", "http://10.0.0.215:5000", "http://localhost:3000", "http://localhost:5000");
+                options.WithOrigins("http://192.168.1.5:3000", "http://192.168.1.5:5000", "http://192.168.1.5:3000", "http://192.168.1.5:5000");
                 
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();

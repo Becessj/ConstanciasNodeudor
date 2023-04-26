@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj": {}
+    "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {}
   },
   "projects": {
-    "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj": {
+    "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj",
+        "projectUniqueName": "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
         "projectName": "Notaria",
-        "projectPath": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj",
-        "packagesPath": "C:\\Users\\rubencito\\.nuget\\packages\\",
-        "outputPath": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\obj\\",
+        "projectPath": "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
+        "packagesPath": "C:\\Users\\CRISTIAN\\.nuget\\packages\\",
+        "outputPath": "D:\\ConstanciasNodeudor\\ApiNotaria\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rubencito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\CRISTIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,12 +87,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.25, 3.1.25]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -101,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.116\\RuntimeIdentifierGraph.json"
         }
       }
     }

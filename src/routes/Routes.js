@@ -7,6 +7,7 @@ import Layout from '../pages/Layout';
 import ReportAudit from '../pages/ReportAudit';
 import Login2 from '../pages/Login2';
 import Cuenta from '../pages/Cuenta';
+import ConsultaNotario from '../pages/ConsultaNotario';
 import Dashboard2 from '../pages/Dashboard2';
 import Layout2 from '../pages/Layout2';
 
@@ -22,7 +23,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="consulta" element={<Consulta />} />
+          <Route path="consulta" element={<ConsultaNotario />} />
           <Route path="reportes" element={<ReportAudit />} />
           <Route path="/" element={<Login />} />
 

@@ -36,10 +36,10 @@ import 'jspdf-autotable';
 //columnas de las tablas con su identificador "field"
 
 
-const baseUrl = "http://10.0.0.215:5000/api/personas";
-const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
-const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
-const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
+const baseUrl = "http://192.168.1.5:5000/api/personas";
+const UrlNotarias = "http://192.168.1.5:5000/api/notarias";
+const UrlAuditorias = "http://192.168.1.5:5000/api/auditorias";
+const UrlRecibos = "http://192.168.1.5:5000/api/recibo";
 
 
 /**tabs**/
