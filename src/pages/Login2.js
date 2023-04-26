@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import '../css/Login.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -55,11 +55,14 @@ const useStyles = makeStyles((theme) => ({
 function Login2(props) {
   const navigate = useNavigate();
   const baseUrl = "http://10.0.0.215:5000/api/contribuyentes";
+
   const cookies = new Cookies();
+
   const [form, setForm] = useState({
     username: '',
-    password: ''
+    password: '',   
   });
+
   const handleChange = e => {
     const { name, value } = e.target;
     setForm({
@@ -75,6 +78,7 @@ function Login2(props) {
       'warning'
     );
   }
+  const state = useLocation()
   const iniciarSesion = async () => {
     await axios.get(baseUrl + `/${form.username}/${form.password}`)
       .then(response => {
@@ -89,7 +93,8 @@ function Login2(props) {
           cookies.set('CONTRIBUYENTE', respuesta.CONTRIBUYENTE, { path: '/' });
           cookies.set('CLAVE', respuesta.CLAVE, { path: '/' });
 
-
+          const a = cookies.get('CONTRIBUYENTE')
+          console.log(a)
           Swal.fire(
             'Bienvenido!',
             respuesta.NOMBRE,
@@ -97,6 +102,8 @@ function Login2(props) {
           );
           /*  setUser(respuesta.USUARIO)
             console.log(user) */
+
+
           navigate("/dashboard2")
         } else {
           Swal.fire(
@@ -120,8 +127,11 @@ function Login2(props) {
   }
 
   useEffect(() => {
-    if (cookies.get('id')) {
+    if (cookies.get('CONTRIBUYENTE')) {
       navigate("/dashboard2")
+    }
+    else {
+      navigate("/login2")
     }
   }, []);
   const classes = useStyles();
@@ -181,6 +191,7 @@ function Login2(props) {
             color="primary"
             className={classes.submit}
             onClick={() => iniciarSesion()}
+            set
           >
             Ingresar
           </Button>

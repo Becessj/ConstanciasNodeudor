@@ -107,14 +107,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Layout(props) {
     const navigate=useNavigate();
   const [user, setUser] = useState(cookies.get('NOMBRE'));
-  
+  const [usuario, setUsuario] = useState(cookies.get('USUARIO'));
+    const [clave, setClave] = useState(cookies.get('CLAVE'));
   console.log("hola")
   console.log(user)
   const cerrarSesion=()=>{
     console.log(cookies.get('id'));
- 
     cookies.remove('id', {path: '/'});
-    
+    console.log(cookies.get('id'));
+    cookies.remove('NOMBRE', {path: '/'});
+    cookies.remove('USUARIO', {path: '/'});
+    cookies.remove('CLAVE', {path: '/'});
+    setUsuario('')
+    setClave('')
+    setUser('')
     navigate("/")
   
     Swal.fire(
