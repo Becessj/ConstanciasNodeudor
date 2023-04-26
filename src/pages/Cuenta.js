@@ -8,9 +8,13 @@ import MaterialTable from 'material-table';
 import { Button } from "@material-ui/core";
 import { tableIcons } from "./IconProvider";
 import { LocalPrintshop, RemoveRedEye } from '@material-ui/icons';
+import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import { MTableToolbar } from 'material-table'
+import { Edit } from '@material-ui/icons'
+import { Print } from '@material-ui/icons'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
 import { logo } from './images';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
@@ -36,10 +40,10 @@ import 'jspdf-autotable';
 //columnas de las tablas con su identificador "field"
 
 
-const baseUrl = "http://10.0.0.215:5000/api/personas";
-const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
-const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
-const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
+const baseUrl = "http://192.168.1.5:5000/api/personas";
+const UrlNotarias = "http://192.168.1.5:5000/api/notarias";
+const UrlAuditorias = "http://192.168.1.5:5000/api/auditorias";
+const UrlRecibos = "http://192.168.1.5:5000/api/recibo";
 
 
 /**tabs**/
@@ -73,9 +77,20 @@ export default function Cuenta(props) {
   const [generador, setgenerador] = useState('PREDIA');
 
 
+  const [prediou1, setPrediou1] = useState('');
+  const [persona1, setPersona1] = useState('');
+
+  const [Carpetapredial1, setCarpetapredial1] = useState('');
+  const [Nombrecompleto1, setNombrecompleto1] = useState('');
+  const [Obs1, setObs1] = useState('');
+  const [hasta11, sethasta1] = useState('');
+  const [Recibo11, setRecibo1] = useState('');
+  const [Pago1, setPago1] = useState('');
+  const [Obsubicacion1, setObsubicacion1] = useState('');
+  const [Texto1, setTexto1] = useState('');
+  
 
 
-  console.log("box", generador)
 
   const SIZE = "300x300";
   const baseURL = "FIRMADO-POR";
@@ -113,14 +128,14 @@ export default function Cuenta(props) {
    **/
   /***tabs****/
   const [value, setValue] = React.useState('PREDIA');
-  console.log("tab", value);
+
 
 
 
   const handleChange2 = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(value)
+
   // const handleChange2 = e => {
   //   const newValue2  = e.target;
   //   setValue(newValue2);
@@ -135,15 +150,20 @@ export default function Cuenta(props) {
       [name]: value
     });
     
-    console.log(name);
-    console.log(value);
+
 
   }
   // const [valor, setValor] = React.useState("PREDIAL");
   /*  const handleSelect = (e) => {
      console.log(e);
    } */
-
+   const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
   const audit = (persona, carpeta, generador) => {
     axios.post(UrlAuditorias, {
       CONTRIBUYENTE: persona,
@@ -266,6 +286,7 @@ export default function Cuenta(props) {
     
     return (
       <MaterialTable
+      
         localization={{
           body: {
             emptyDataSourceMessage: "No hay datos para mostrar"
@@ -291,8 +312,11 @@ export default function Cuenta(props) {
           exportButton: {
             csv: true,
             pdf: false,
+            search: false,
           },
-          sorting: true,
+          // exportCsv: (data, columns) => console.log(data, columns, '<== CSV'),
+          // exportPdf: (data, columns) => console.log(data, columns, '<== PDF'),
+          sorting: false,
           exportButton: true,
           showTitle: false,
           draggable: false,
@@ -304,6 +328,7 @@ export default function Cuenta(props) {
           pageSizeOptions: [5],
           tableLayout: "auto"
         }}
+       
         actions={[
           {
             icon: () => <LocalPrintshop />,
@@ -321,7 +346,18 @@ export default function Cuenta(props) {
                 if (result.isConfirmed) {
                   //recibos(rowData.PERSONA, generador, rowData.PREDIO_U); 
                   verificarDeuda(rowData.PERSONA, rowData.CARPETAPREDIAL, rowData.NOMBRE_COMPLETO, rowData.PREDIO_U, rowData.OBS, rowData.HASTA, rowData.RECIBO, rowData.F_PAGO, generador, rowData.OBS_UBICACION, rowData.TEXTO)
-                  
+                  setCarpetapredial1(rowData.CARPETAPREDIAL)
+                  setNombrecompleto1(rowData.NOMBRE_COMPLETO)
+                  setObs1(rowData.OBS)
+                  sethasta1(rowData.HASTA)
+                  setRecibo1(rowData.RECIBO)
+                  setPago1(rowData.F_PAGO)
+                  setObsubicacion1(rowData.OBS_UBICACION)
+                  setTexto1(rowData.TEXTO)
+
+                  setPrediou1(rowData.PREDIO_U)
+                  console.log(prediou1)
+                  setPersona1(rowData.PERSONA)
                   //recibos(rowData.PERSONA,generador,rowData.PREDIO_U)
                 }
               })
@@ -401,7 +437,20 @@ export default function Cuenta(props) {
       }
       return generador;
     }
-
+    const changeRecibo = (rec) => {
+      var rec2;
+      switch (rec) {
+        case "C":
+          rec2 = 'CANCELADO';
+          break;
+        case "P":
+          rec2 = 'PENDIENTE';
+          break;
+        default:
+          break;
+      }
+      return rec2;
+    }
   const changeSN = (value) => {
     var valor;
     switch (value) {
@@ -437,59 +486,53 @@ export default function Cuenta(props) {
     const fecha = new Date();
     return ' ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' del ' + fecha.getUTCFullYear();
   }
-  /*   const changeDateTime = (fechacompleta) => {
-      var today = new Date(fechacompleta);
-      var dd = today.getDate();
-      var mm = today.getMonth() + 1; 
-      var yyyy = today.getFullYear();
-      today = dd + '/' + mm + '/' + yyyy;
-      return today;
-    } */
 
+  
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
     /* obsrec = recibos('00012', 'PREDIA', 'PU00001A'); */
     recibos(persona, generador, predioU); 
-      if (obs === "EL CONTRIBUYENTE NO ADEUDA") {
-        console.log(obsrec)
-        console.log("observacion = " + obsrec)
-        let timerInterval
-        Swal.fire({
-          title: 'Estamos generando la impresión',
-          html: 'Esto tomará unos <b></b> milisegundos.',
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading()
-            const b = Swal.getHtmlContainer().querySelector('b')
-            timerInterval = setInterval(() => {
-              b.textContent = Swal.getTimerLeft()
-            }, 100)
-          },
-          willClose: () => {
-            clearInterval(timerInterval)
-          }
-        }).then((result) => {
-          if (generador === 'PREDIA' || generador === 'ALCABA') {
-            imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else if (generador === 'IMPVEH') {
-            imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else {
-            imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-        })
-      }
-      else {
-        Swal.fire({
-          title: "<b>NO PUEDES IMPRIMIR</b>",
-          html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
-          confirmButtonText: "Cancelar",
-          icon: "error"
-        })
+
+    if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec ==="P") {
+      console.log(obsrec)
+      console.log("observacion = " + obsrec)
+      let timerInterval
+      Swal.fire({
+        title: 'Estamos generando la impresión',
+        html: 'Esto tomará unos <b></b> milisegundos.',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+            b.textContent = Swal.getTimerLeft()
+          }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        if (generador === 'PREDIA' || generador === 'ALCABA') {
+          imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else if (generador === 'IMPVEH') {
+          imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else {
+          imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+      })
+    }
+    else {
+      Swal.fire({
+        title: "<b>NO PUEDES IMPRIMIR</b>",
+        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
+        confirmButtonText: "Cancelar",
+        icon: "error"
+      })
 
 
     }
@@ -503,7 +546,6 @@ export default function Cuenta(props) {
   };
 
   const imprimirPredialAlcaba = (persona, nombrecompleto, predioU, obs, texto) => {
-
     const qrSize = 110;
     let imageData = new Image(300, 300);
     imageData.src = getImageSrc(persona, nombrecompleto, predioU, obs);
@@ -561,8 +603,71 @@ export default function Cuenta(props) {
     //doc.save(filename);
     doc.autoPrint();
     window.open(doc.output('bloburl'), '_blank');
-    //window.location.reload(true);
+    window.location.reload(true);
   }
+
+  const imprimirPredialAlcabaTodos = (tt) => {
+    buscarNotarias(persona1, dni1, generador, 'T');
+    const qrSize = 110;
+    let imageData = new Image(300, 300);
+    imageData.src = getImageSrc(persona1, Nombrecompleto1, prediou1, Obs1);
+    doc.addImage(imageData, "PNG", 100, 410, qrSize, qrSize);
+    doc.setFontSize(16);
+    doc.addImage(logo, 'JPEG', 20, 5);
+    doc.setFontSize(8);
+    doc.setDrawColor(0, 0, 0);
+    doc.text(100, 30, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO')
+    doc.text(100, 45, 'Dirección: AV. RUIZ NRO. S/N')
+    doc.text(100, 60, 'RUC: 20154432516')
+    //doc.setFont('courier');
+    doc.setFontSize(18);
+    doc.setFont("Arial", "bold");
+    doc.text(180, 170, 'CONSTANCIA DE NO DEUDOR', { maxWidth: 1024, align: "justify" })
+    //doc.text("This is example paragraph   1", 11,13,).setFontSize(8).setFont(undefined, 'bold');
+    doc.setFont("Arial", "normal");
+    //doc.text("This is example paragraph      2", 11,13,).setFontSize(8).setFont(undefined, 'normal');
+    doc.setFontSize(12);
+    //doc.internal.write(0, "Tw") // <- add this
+    /* doc.text('Que, la administrada ' + nombrecompleto +texto+ obs_ub+', se encuentra inscrita como ' +
+       'contribuyente en el registro predial que maneja la Administración Tributaria de la MUNICIPALIDAD DISTRITAL DE SANTIAGO con Carpeta N°' +
+       carpeta + ' por el código del predio: ' + predioU + ' ubicado en el distrito de SANTIAGO, Provincia y Departamento del Cusco,' +
+       ' habiendo cancelado el ' + changeGenerator(generador) + ' del Ejercicio Gravable ' + hasta +
+       ' con recibo de pago N° ' + recibo + ' en fecha ' + changeDateTime(f_pago) + ' y haciendo constar que: NO ADEUDA el ' +
+       changeGenerator(generador) + ' desde la fecha que es contribuyente hasta la actualidad.', 100, 250, { maxWidth: 400, align: 'justify' });
+     //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })*/
+    doc.text(tt, 100, 250, { maxWidth: 400, align: 'justify' });
+    //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })
+    doc.text('Cusco,' + dateToday(), 335, 465, { maxWidth: 2300, align: 'justify' })
+
+    doc.setLineWidth(1);
+    doc.setDrawColor(255, 0, 0);
+    //line()
+    doc.setFontSize(8);
+    doc.text(142, 520, timeToday())
+    doc.setFontSize(6);
+    doc.line(28, 800, 570, 800);
+    // Optional - set properties on the document
+    doc.setProperties({
+      title: 'CONSTANCIA DE NO DEUDOR',
+      subject: 'Esta es una copia legitima del documento extraido del sistema',
+      author: 'Municipalidad Distrital de Santiago',
+      keywords: 'constancia no deudor, constancia, santiago',
+      creator: 'MDS2023'
+    });
+
+    doc.setFont("Arial", "bold");
+    doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
+    doc.setFont("Arial", "normal");
+    doc.text(150, 818, 'Dirección: AV. RUIZ NRO. S/N - SANTIAGO / CUSCO')
+    doc.text(150, 826, 'Teléfono: S/N')
+    //var date = new Date();
+    //var filename = "MPU-" + predioU + ".pdf";
+    //doc.save(filename);
+    doc.autoPrint();
+    window.open(doc.output('bloburl'), '_blank');
+    window.location.reload(true);
+  }
+  
   const imprimirVehicular = (persona, nombrecompleto, predioU, obs, texto) => {
 
     const qrSize = 110;
@@ -686,7 +791,7 @@ export default function Cuenta(props) {
     window.location.reload(true);
   }
   const buscarNotarias = async (persona, nrodoc, generador, clave) => {
-    const result = await axios.get(UrlNotarias + `/${persona}/${nrodoc}/${generador}/${clave}`)
+    const result = await axios.get(UrlNotarias + `/${persona}/${'%'}/${generador}/${clave}`)
     /* console.log(result)
     console.log(generador) */
     var y = new Date().getFullYear();
@@ -707,9 +812,47 @@ export default function Cuenta(props) {
       });
     }
     setData(newdata)
-    console.log(result.data)
+ /*    console.log(result.data) */
+  }
+  const buscarNotariasforPrint = async () => {
+    const resulta = await axios.get(UrlNotarias + `/${cont1}/${'%'}/${generador}/${'T'}`)
+    if(obsrec =="C"){
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Solo tienes 3 intentos de impresión",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, imprimir'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          audit(cont1, '%', generador, user)
+          imprimirPredialAlcabaTodos(resulta.data[0]['TEXTO'])
+        }
+      })
+    } 
+    else{
+      Swal.fire({
+        title: "<b>NO PUEDES IMPRIMIR</b>",
+        html: `<b>OBSERVACION: </b>El recibo esta ` + changeRecibo(obsrec) + ` de pago`,
+        confirmButtonText: "Aceptar",
+        icon: "error"
+      })
+    }
+  
+    
+      // audit(cont1, '%', generador, user)
+      //       imprimirPredialAlcabaTodos(result.data[0]['TEXTO'])
+      //       console.log(Texto1)
+     //Swal.fire("no puedes xd")
+   
+
+
+  
   }
     useEffect(() => {
+      recibos(cont1,generador,'%')
       buscar('%', '25304147')
     }, []);
   //Renderiza la subtabla de la tabla principal
@@ -729,96 +872,6 @@ export default function Cuenta(props) {
 
     <>
       <Grid container justify="center">
-       
-
-
-        {/* <div className="container-fluid">
-          <AppBar position="static" color="default">
-            <Tabs
-              valor={valor}
-              onClick={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              onLoad={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-
-            >
-              <Tab label="PREDIA" />
-              <Tab label="ALCABA" />
-              <Tab label="LIMPPU" />
-              <Tab label="IMPVEH" />
-
-            </Tabs>
-          </AppBar>
-          {valor === "PREDIA" && <TabContainer>PREDIAL</TabContainer>}
-          {valor === "ALCABA" && <TabContainer>ALCABALA</TabContainer>}
-          {valor === "LIMPPU" && <TabContainer>LIMPIEZA</TabContainer>}
-          {valor === "IMPVEH" && <TabContainer>VEHICULAR</TabContainer>}
-
-        </div> */}
-        {/* <br></br> <br></br> <br></br><br></br>
-        <div class="container-fluid">
-
-          <Tabs
-            sx={{ width: '100%' }}
-            value={value}
-            // onChange={handleChange2}
-            onChange={(e) => {
-              setgenerador(e.target.newValue);
-              buscar(form.nombre, form.contribuyente)
-            }}
-            
-           
-            // onChange={handleChange2}
-            // onClick={(e) => {
-            //   setgenerador(e.target.value);
-            //   buscar(form.nombre, form.contribuyente)
-            // }}
-            textColor="secondary"
-            indicatorColor="secondary"
-            aria-label="secondary tabs example"
-          >
-            <Tab value="PREDIA" label="PREDIAL" selected />
-            <Tab value="ALCABA" label="ALCABALA" />
-            <Tab value="LIMPPU" label="LIMPIEZA" />
-            <Tab value="IMPVEH" label="VEHICULAR" />
-          </Tabs>
-        </div> */}
-        {/* <div class="container-fluid">
-          <br></br>
-          <Paper className="container">
-            <Tabs
-              onClick={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              onLoad={(e) => {
-                setgenerador(e.target.value);
-                buscar(form.nombre, form.contribuyente)
-              }}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-              centered
-            >
-              <Tab value={"PREDIA"} label="PREDIAL" selected />
-              <Tab value={"ALCABA"} label="ALCABALA" />
-              <Tab value={"LIMPPU"} label="LIMPIEZA" />
-              <Tab value={"IMPVEH"} label="VEHICULAR" />
-            </Tabs>
-          </Paper>
-
-        </div> */}
-
-
         <div className="container-fluid cew-9">
           <div className="row">
             <div className="col-12 col-sm-6 col-md-3">
@@ -908,9 +961,6 @@ export default function Cuenta(props) {
         </div>
 
       </div>
-      <div>
-            <Button style={{backgroundColor: 'orange'}} onClick={()=>console.log("imprimir todos")}>Imprimir todos</Button>
-            </div>
 
       <div class="container-fluid">
         <MaterialTable
@@ -944,9 +994,7 @@ export default function Cuenta(props) {
           title={'Selecciona la persona'}
            
           actions={[
-           
-            
-           
+
             {
               
               icon: () => <RemoveRedEye />,
@@ -1004,6 +1052,7 @@ export default function Cuenta(props) {
             exportButton: {
               csv: true,
               pdf: false,
+              earch: false,
             },
             sorting: true,
             exportButton: true,
@@ -1022,7 +1071,6 @@ export default function Cuenta(props) {
 
             tableLayout: "auto"
           }}
-
           
           detailPanel={[
             {

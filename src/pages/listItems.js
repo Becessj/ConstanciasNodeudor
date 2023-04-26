@@ -36,18 +36,13 @@ export const MainListItems =(props)=>{
         </ListItemIcon>
         <ListItemText primary="Panel Inicio" />
       </ListItem>
-      <ListItem button onClick={()=>{navigate("/consulta")}}>
+      <ListItem button onClick={()=>{navigate("/consultanotario")}}>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
         <ListItemText primary="Consulta" />
       </ListItem>
-      <ListItem button onClick={()=>{navigate("/reportes")}}>
-        <ListItemIcon>
-        <Report />
-        </ListItemIcon>
-        <ListItemText primary="Reportes" />
-      </ListItem>
+ 
       <ListItem button onClick={()=>{navigate("/")}}>
         <ListItemIcon>
         <ExitToAppIcon onClick={() => cerrarSesion()} />

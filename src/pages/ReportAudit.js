@@ -13,7 +13,7 @@ export default function ReportAudit() {
     const [data, setData] = useState([]);
 
 
-const baseUrl = "http://10.0.0.215:5000/api/reporte";
+const baseUrl = "http://192.168.1.5:5000/api/reporte";
 
 useEffect(() => {
   reportAudit();

@@ -19,7 +19,7 @@ import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 import '../css/Menu.css';
 import { Container } from "@material-ui/core";
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 
 
@@ -112,18 +112,27 @@ export default function Layout2(props) {
     const [dni, setDni] = useState(cookies.get('CLAVE'));
     const [cont, setCont] = useState(cookies.get('CONTRIBUYENTE'));
 
-    console.log("hola")
-    console.log(user)
-    console.log(dni)
-    console.log(cont)
-
+    const state = useLocation()
+    
     const cerrarSesion = () => {
-        console.log(cookies.get('id'));
-        console.log(props)
+        
         cookies.remove('id', { path: '/' });
-
-        navigate("/login2")
-
+        cookies.remove('CONTRIBUYENTE', { path: '/' });
+        cookies.remove('CLAVE', { path: '/' });
+        cookies.remove('NOMBRE', { path: '/' });
+        setCont('null')
+        setDni('null')
+        setUser('null')
+        console.log(cookies.get('CONTRIBUYENTE'));
+        const x = cookies.get('CONTRIBUYENTE')
+        navigate("/login2", {
+            state: {
+                logged: false,
+                username: '',
+            }
+        }
+        )
+        console.log(x)
         Swal.fire(
             'SESIÓN CERRADA',
             '',
@@ -181,13 +190,12 @@ export default function Layout2(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Bienvenido Contribuyente <b> {user}</b> {dni} {cont} - Al Sistema de Constancias de No Deudor 
+                        Bienvenido Contribuyente <b> {user}</b> {dni} {cont} - Al Sistema de Constancias de No Deudor
                     </Typography>
                     {/*  <IconButton color="inherit"> */}
                     {/* Aqui iria Cerrar sesion gozuu */}
                     {/* <button className="btn btn-danger" onClick={() => cerrarSesion()}>Cerrar Sesión</button> */}
                     <ExitToAppIcon onClick={() => cerrarSesion()} />
-
                     {/*       </IconButton> */}
 
                 </Toolbar>
