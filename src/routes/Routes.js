@@ -31,7 +31,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="consulta" element={<ConsultaNotario />} />
+          <Route path="consultanotario" element={<ConsultaNotario />} />
           <Route path="reportes" element={<ReportAudit />} />
           <Route path="/" element={<Login />} />
         </Route>
