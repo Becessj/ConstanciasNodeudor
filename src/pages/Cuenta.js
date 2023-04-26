@@ -961,7 +961,7 @@ export default function Cuenta(props) {
 
       </div>
       <div>
-            <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos
+            <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos xdddd
             </Button>
             </div>
 
@@ -999,7 +999,7 @@ export default function Cuenta(props) {
           actions={[
             {
               icon: () => <Print />,
-            tooltip: 'Imprimir Todos',
+            tooltip: 'Imprimir Todos xddd',
             isFreeAction: true,
             onClick: (event) => buscarNotariasforPrint()
         },
