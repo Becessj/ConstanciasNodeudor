@@ -286,6 +286,7 @@ export default function Cuenta(props) {
     
     return (
       <MaterialTable
+      
         localization={{
           body: {
             emptyDataSourceMessage: "No hay datos para mostrar"
@@ -311,10 +312,11 @@ export default function Cuenta(props) {
           exportButton: {
             csv: true,
             pdf: false,
+            search: false,
           },
           // exportCsv: (data, columns) => console.log(data, columns, '<== CSV'),
           // exportPdf: (data, columns) => console.log(data, columns, '<== PDF'),
-          sorting: true,
+          sorting: false,
           exportButton: true,
           showTitle: false,
           draggable: false,
@@ -959,7 +961,7 @@ export default function Cuenta(props) {
 
       </div>
       <div>
-            <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos</Button>
+            <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos xd</Button>
             </div>
 
       <div class="container-fluid">
@@ -996,7 +998,7 @@ export default function Cuenta(props) {
           actions={[
             {
               icon: () => <Print />,
-            tooltip: 'Imprimir Todos',
+            tooltip: 'Imprimir Todos gaaaaaaaaaa',
             isFreeAction: true,
             onClick: (event) => buscarNotariasforPrint()
         },
@@ -1059,6 +1061,7 @@ export default function Cuenta(props) {
             exportButton: {
               csv: true,
               pdf: false,
+              earch: false,
             },
             sorting: true,
             exportButton: true,

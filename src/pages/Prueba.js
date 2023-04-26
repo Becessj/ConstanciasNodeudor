@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Grid from "@material-ui/core/Grid";
 //import Chip from "@material-ui/core/Chip";
+import ArrowDownwardTwoToneIcon from '@mui/icons-material/ArrowDownwardTwoTone';
 
 import 'jspdf-autotable';
 
@@ -869,6 +870,56 @@ export default function Consulta(props) {
                 confirmButtonText: "Cancelar",
               })
             },
+            {
+              icon: () => <RemoveRedEye />,
+              tooltip: 'Ver detalles',
+              onClick: (event, rowData) => Swal.fire({
+                title: "<i>Información de la Persona</i>",
+                html: `<table id="table" border=1>
+                                                 
+                                                  <tbody>
+                                                 
+                                                      <tr>
+                                                          
+                                                          <td><b>CÓD. PERSONA </b></td>
+                                                          <td>` + rowData.PERSONA + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><b>NRO DOCUMENTO</b></td>
+                                                          <td>` + rowData.NRO_DOC + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                          
+                                                          <td><b>NOMBRE COMPLETO</b></td>
+                                                          <td>` + rowData.NOMBRE_COMPLETO + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                          <td><b>DIRECCIÓN FISCAL</b></td>
+                                                          <td>` + rowData.DIRECCION_FISCAL + `</td>
+                                                      </tr>
+                                                     
+                                                      <tr>
+                                                          <td><b>REGISTRO PREDIAL</b></td>
+                                                          <td>` + changeSN(rowData.PREDIAL) + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><b>REGISTRO ALCABALA</b></td>
+                                                          <td>` + changeSN(rowData.ALCABALA) + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><b>REGISTRO VEHICULAR</b></td>
+                                                          <td>` + changeSN(rowData.VEHICULAR) + `</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td><b>REGISTRO LIMPIEZA PÚBLICA</b></td>
+                                                          <td>` + changeSN(rowData.LIMPIEZA) + `</td>
+                                                      </tr>
+                                          </tbody>
+                                          </table>`,
+                confirmButtonText: "Cancelar",
+              })
+            }
 
           ]}
           options={{
