@@ -511,6 +511,8 @@ export default function Consulta(props) {
     }
     return rec2;
   }
+
+  
   const imprimirPredialAlcabaTodos = (tt) => {
     buscarNotarias(persona1, '%', generador, 'T');
     const qrSize = 110;
