@@ -124,7 +124,7 @@ export default function Layout(props) {
     navigate("/")
   
     Swal.fire(
-        'SESIÓN CERRADA',
+        'SESIÓN CERRADA',    
         '',
         'error'
       );
