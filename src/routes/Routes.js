@@ -14,6 +14,7 @@ import Login3 from '../pages/Login3';
 import Prueba from '../pages/Prueba';
 import Dashboard3 from '../pages/Dashboard3';
 import Layout3 from '../pages/Layout3';
+
 import { ProtectedRoute } from './ProtectedRoute';
 import { ProtectedRoute2 } from './ProtectedRoute';
 import { ProtectedRoute3 } from './ProtectedRoute';
@@ -31,7 +32,6 @@ function App() {
         <Route element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="consulta" element={<Consulta />} />
-          <Route path="reportes" element={<ReportAudit />} />
           <Route path="/" element={<Login />} />
         </Route>
 
@@ -39,14 +39,14 @@ function App() {
         <Route element={<Layout2 />}>
           <Route path="dashboard2" element={<Dashboard2 />} />
           <Route path="cuenta" element={<Cuenta />} />
-          <Route path="reportes" element={<ReportAudit />} />
           <Route path="/login2" element={<Login2 />} />
         </Route>
 
         <Route path="/login3" element={<Login3 />} />
         <Route element={<Layout3 />}>
           <Route path="dashboard3" element={<Dashboard3 />} />
-          <Route path="prueba" element={<Prueba />} />
+          <Route path="consulta" element={<Consulta />} />          
+          <Route path="reportes" element={<ReportAudit />} />
           <Route path="/login3" element={<Login3 />} />
         </Route>
 

@@ -1,8 +1,11 @@
 /* import { makeStyles } from '@material-ui/core/styles'; */
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import '../css/Menu.css';
 import MaterialTable from 'material-table';
 import { Button } from "@material-ui/core";
@@ -27,55 +30,85 @@ const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
 /* function preventDefault(event) {
   event.preventDefault();
 } */
-
-/* const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-})); */
-/* const customStyles = {
-  menu: (provided, state) => ({
-    ...provided,
-    width: state.selectProps.width,
-    borderBottom: '1px dotted pink',
-    color: state.selectProps.menuColor,
-    padding: 20,
-  }),
-
-  control: (_, { selectProps: { width }}) => ({
-    width: width
-  }),
-
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
-
-    return { ...provided, opacity, transition };
-  }
-} */
-/* const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
+const drawerWidth = 220;
+const useStyles = makeStyles((theme) => ({
+  root: {
     display: 'flex',
-    flexDirection: 'column',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
-  form: {
-    width: '20%', // Fix IE 11 issue.
-    marginTop: theme.spacing(2),
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  menuButton: {
+    marginRight: 36,
   },
-})); */
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
+}));
 export default function Consulta(props) {
   const columns = [
     { title: 'PERSONA', field: 'PERSONA' },
@@ -644,7 +677,7 @@ export default function Consulta(props) {
     window.location.reload(true);
   }
   const buscarNotarias = async (persona, nrodoc, generador, clave) => {
-    const result = await axios.get(UrlNotarias + `/${persona}/${nrodoc}/${generador}/${clave}`)
+    const result = await axios.get(UrlNotarias + `/${persona}/${'%'}/${generador}/${clave}`)
     /* console.log(result)
     console.log(generador) */
     var y = new Date().getFullYear();
@@ -668,27 +701,18 @@ export default function Consulta(props) {
     setData(newdata)
     console.log(result.data)
   }
-  /*   useEffect(() => {
-      if (!cookies.get('id')) {
-  
-        props.history.push('./');
-      }
-    }, []); */
-  //Renderiza la subtabla de la tabla principal
-  /*     useEffect(() => {
-        
-        buscarNotarias(persona,dni,generador,'%')
-        
-      }, [persona]) */
-  // const classes = useStyles();
+  const classes = useStyles();
+ 
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
 
 
     <>
-      <Grid container justify="center">
+     <Paper className={fixedHeightPaper}>
+     <Grid container justify="center">
         <div class="container-fluid">
-          <br></br>
+    
           <h5><b>Selecciona el generador : </b>
             <select
               //style={{width: '300px'}}
@@ -705,7 +729,7 @@ export default function Consulta(props) {
             </select> </h5>
 
         </div>
-        <br></br> <br></br> <br></br><br></br>
+        <br></br> <br></br> <br></br>
         <div className="container-fluid cew-9">
           <div className="row">
             <div className="col-12 col-sm-6 col-md-3">
@@ -773,6 +797,9 @@ export default function Consulta(props) {
           Consultar &nbsp; <FaSearch />
         </Button>
       </Grid>
+              </Paper>
+              
+      
       {/*  <h1>CONSTANCIA DE NO DEUDOR</h1> */}
 
       <div className="form-group">

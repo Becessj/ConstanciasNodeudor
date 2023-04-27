@@ -81,7 +81,7 @@ export const MainListItems = (props) => {
                 <ListItemText primary="Panel inicio" />
             </ListItem>
 
-            <ListItem button onClick={() => { navigate("/consulta2") }}>
+            <ListItem button onClick={() => { navigate("/consulta") }}>
 
                 <ListItemIcon>
                     <BarChartIcon />
@@ -89,7 +89,7 @@ export const MainListItems = (props) => {
                 <ListItemText primary="Consulta" />
             </ListItem>
 
-            <ListItem button onClick={() => { navigate("/reportes2") }}>
+            <ListItem button onClick={() => { navigate("/reportes") }}>
                 <ListItemIcon>
                     <Report />
                 </ListItemIcon>
