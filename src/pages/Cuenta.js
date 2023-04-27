@@ -40,10 +40,10 @@ import 'jspdf-autotable';
 //columnas de las tablas con su identificador "field"
 
 
-const baseUrl = "http://10.0.0.215:5000/api/personas";
-const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
-const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
-const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
+const baseUrl = "http://localhost:5000/api/personas";
+const UrlNotarias = "http://localhost:5000/api/notarias";
+const UrlAuditorias = "http://localhost:5000/api/auditorias";
+const UrlRecibos = "http://localhost:5000/api/recibo";
 
 
 /**tabs**/
@@ -490,48 +490,49 @@ export default function Cuenta(props) {
   
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
     /* obsrec = recibos('00012', 'PREDIA', 'PU00001A'); */
-     recibos(persona, generador, predioU); 
-      if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec === 'C' ) {
-        /* console.log(obsrec)
-        console.log("observacion = " + obsrec) */
-        let timerInterval
-        Swal.fire({
-          title: 'Estamos generando la impresión',
-          html: 'Esto tomará unos <b></b> milisegundos.',
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading()
-            const b = Swal.getHtmlContainer().querySelector('b')
-            timerInterval = setInterval(() => {
-              b.textContent = Swal.getTimerLeft()
-            }, 100)
-          },
-          willClose: () => {
-            clearInterval(timerInterval)
-          }
-        }).then((result) => {
-          if (generador === 'PREDIA' || generador === 'ALCABA') {
-            imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else if (generador === 'IMPVEH') {
-            imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else {
-            imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-        })
-      }
-      else {
-        Swal.fire({
-          title: "<b>NO PUEDES IMPRIMIR</b>",
-          html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
-          confirmButtonText: "Cancelar",
-          icon: "error"
-        })
+    recibos(persona, generador, predioU); 
+
+    if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec ==="P") {
+      console.log(obsrec)
+      console.log("observacion = " + obsrec)
+      let timerInterval
+      Swal.fire({
+        title: 'Estamos generando la impresión',
+        html: 'Esto tomará unos <b></b> milisegundos.',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+            b.textContent = Swal.getTimerLeft()
+          }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        if (generador === 'PREDIA' || generador === 'ALCABA') {
+          imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else if (generador === 'IMPVEH') {
+          imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else {
+          imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+      })
+    }
+    else {
+      Swal.fire({
+        title: "<b>NO PUEDES IMPRIMIR</b>",
+        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
+        confirmButtonText: "Cancelar",
+        icon: "error"
+      })
 
 
     }
@@ -960,10 +961,12 @@ export default function Cuenta(props) {
         </div>
 
       </div>
+
       <div>
             <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos xdddd
             </Button>
             </div>
+
 
       <div class="container-fluid">
         <MaterialTable
@@ -997,14 +1000,17 @@ export default function Cuenta(props) {
           title={'Selecciona la persona'}
            
           actions={[
+
             {
               icon: () => <Print />,
             tooltip: 'Imprimir Todos xddd',
             isFreeAction: true,
             onClick: (event) => buscarNotariasforPrint()
         },
-            
-           
+
+
+
+
             {
               
               icon: () => <RemoveRedEye />,
@@ -1102,7 +1108,7 @@ export default function Cuenta(props) {
             //console.log(persona)
             //setGenerador(generador)
             
-            buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, '%');
+            buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, 'T');
             togglePanel();
           }}
 

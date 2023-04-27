@@ -57,8 +57,8 @@ function Login(props) {
   if (!null) {
 
   }
-  const baseUrl = "http://10.0.0.215:5000/api/usuarios";
-  const baseUrl2 = "http://10.0.0.215:5000/api/contribuyentes";
+  const baseUrl = "http://localhost:5000/api/usuarios";
+  const baseUrl2 = "http://localhost:5000/api/contribuyentes";
   const cookies = new Cookies();
   const [form, setForm] = useState({
     username: '',

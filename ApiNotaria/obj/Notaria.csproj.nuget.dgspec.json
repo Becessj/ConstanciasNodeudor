@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj": {}
+    "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {}
   },
   "projects": {
-    "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj": {
+    "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj",
+        "projectUniqueName": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
         "projectName": "Notaria",
-        "projectPath": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\Notaria.csproj",
-        "packagesPath": "C:\\Users\\rubencito\\.nuget\\packages\\",
-        "outputPath": "D:\\buzon\\ModuloNotaria\\ApiNotaria\\obj\\",
+        "projectPath": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
+        "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rubencito\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,12 +87,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.25, 3.1.25]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -101,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     }
