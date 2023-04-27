@@ -25,9 +25,9 @@ import 'jspdf-autotable';
 import Consulta from './Consulta';
 
 
-const baseUrl = "http://192.168.1.5:5000/api/personas";
-const UrlNotarias = "http://192.168.1.5:5000/api/notarias";
-const UrlAuditorias = "http://192.168.1.5:5000/api/auditorias";
+const baseUrl = "http://localhost:5000/api/personas";
+const UrlNotarias = "http://localhost:5000/api/notarias";
+const UrlAuditorias = "http://localhost:5000/api/auditorias";
 const drawerWidth = 5201;
 const useStyles = makeStyles((theme) => ({
   root: {

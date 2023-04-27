@@ -26,24 +26,13 @@ export const MainListItems = (props) => {
     const cookies = new Cookies();
     const [user1, setUser1] = useState(cookies.get('NOMBRE'));
     const [dni1, setDni1] = useState(cookies.get('CLAVE'));
-<<<<<<< HEAD
-    
-    
-=======
 
-
->>>>>>> 56ac2b91f8ec80b34f0921bcbcde8c19f7b76a53
     const [data, setData] = useState([]);
     var user = '';
 
     const [form, setForm] = useState({
         dni: dni1,//dni inicializada con el coockie guardado
         nombre: user1,//nombre inicializada con el coockie guardado
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 56ac2b91f8ec80b34f0921bcbcde8c19f7b76a53
     });
 
     const handleChange = e => {
@@ -87,18 +76,11 @@ export const MainListItems = (props) => {
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
-<<<<<<< HEAD
-                <ListItemText primary="panel xd" />
-            </ListItem>
-            <ListItem button onClick={() => {navigate("/prueba")}}>
-            
-=======
                 <ListItemText primary="Panel inicio" />
             </ListItem>
 
             <ListItem button onClick={() => { navigate("/consulta2") }}>
 
->>>>>>> 56ac2b91f8ec80b34f0921bcbcde8c19f7b76a53
                 <ListItemIcon>
                     <BarChartIcon />
                 </ListItemIcon>

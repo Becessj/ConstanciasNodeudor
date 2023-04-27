@@ -16,11 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
 import Grid from "@material-ui/core/Grid";
 //import Chip from "@material-ui/core/Chip";
-<<<<<<< HEAD
-=======
 import ArrowDownwardTwoToneIcon from '@mui/icons-material/ArrowDownwardTwoTone';
->>>>>>> 56ac2b91f8ec80b34f0921bcbcde8c19f7b76a53
-
 import 'jspdf-autotable';
 
 

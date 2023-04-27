@@ -20,9 +20,9 @@ import Grid from "@material-ui/core/Grid";
 import 'jspdf-autotable';
 
 
-const baseUrl = "http://192.168.1.5:5000/api/personas";
-const UrlNotarias = "http://192.168.1.5:5000/api/notarias";
-const UrlAuditorias = "http://192.168.1.5:5000/api/auditorias";
+const baseUrl = "http://localhost:5000/api/personas";
+const UrlNotarias = "http://localhost:5000/api/notarias";
+const UrlAuditorias = "http://localhost:5000/api/auditorias";
 
 /* function preventDefault(event) {
   event.preventDefault();

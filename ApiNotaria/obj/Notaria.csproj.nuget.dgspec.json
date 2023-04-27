@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {}
+    "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {}
   },
   "projects": {
-    "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {
+    "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
+        "projectUniqueName": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
         "projectName": "Notaria",
-        "projectPath": "D:\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
-        "packagesPath": "C:\\Users\\CRISTIAN\\.nuget\\packages\\",
-        "outputPath": "D:\\ConstanciasNodeudor\\ApiNotaria\\obj\\",
+        "projectPath": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\Notaria.csproj",
+        "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrador\\source\\repos\\ConstanciasNodeudor\\ApiNotaria\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\CRISTIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.116\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.426\\RuntimeIdentifierGraph.json"
         }
       }
     }
