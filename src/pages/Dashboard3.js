@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Chart from './Chart';
-import Prints from './Prints';
+import Prints2 from './Prints2';
 import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 import '../css/Menu.css';
@@ -120,7 +120,7 @@ export default function Dashboard3(props) {
        
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Prints />
+                <Prints2 />
               </Paper>
             </Grid>
             

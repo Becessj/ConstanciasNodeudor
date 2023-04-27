@@ -190,7 +190,7 @@ export default function Layout2(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Bienvenido Contribuyente <b> {user}</b> {dni} {cont} - Al Sistema de Constancias de No Deudor
+                        Bienvenido Sr. Contribuyente: <b> {user}</b> al Sistema de Constancias de No Deudor
                     </Typography>
                     {/*  <IconButton color="inherit"> */}
                     {/* Aqui iria Cerrar sesion gozuu */}

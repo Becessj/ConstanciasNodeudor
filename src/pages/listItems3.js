@@ -27,14 +27,12 @@ export const MainListItems = (props) => {
     const [user1, setUser1] = useState(cookies.get('NOMBRE'));
     const [dni1, setDni1] = useState(cookies.get('CLAVE'));
 
-
     const [data, setData] = useState([]);
     var user = '';
 
     const [form, setForm] = useState({
         dni: dni1,//dni inicializada con el coockie guardado
         nombre: user1,//nombre inicializada con el coockie guardado
-
     });
 
     const handleChange = e => {

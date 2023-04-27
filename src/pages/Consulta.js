@@ -1,6 +1,6 @@
 /* import { makeStyles } from '@material-ui/core/styles'; */
-import React, { useState } from 'react';
 import clsx from 'clsx';
+import React, { useState, useEffect  } from 'react';
 import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { tableIcons } from "./IconProvider";
 import { LocalPrintshop, RemoveRedEye } from '@material-ui/icons';
 import { MTableToolbar } from 'material-table'
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Print } from '@material-ui/icons'
 import { jsPDF } from "jspdf";
 import { logo } from './images';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +27,7 @@ import 'jspdf-autotable';
 const baseUrl = "http://localhost:5000/api/personas";
 const UrlNotarias = "http://localhost:5000/api/notarias";
 const UrlAuditorias = "http://localhost:5000/api/auditorias";
+const UrlRecibos = "http://localhost:5000/api/recibo";
 
 /* function preventDefault(event) {
   event.preventDefault();
@@ -110,6 +112,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function Consulta(props) {
+
+  var [obsrec, setobsrec] = useState("");
   const columns = [
     { title: 'PERSONA', field: 'PERSONA' },
     { title: 'NOMBRE COMPLETO', field: 'NOMBRE_COMPLETO', },
@@ -155,6 +159,16 @@ export default function Consulta(props) {
   //const [generador, setGenerador] = useState('');
   //const [user, setUser] = useState("");
   //const classes = useStyles();
+  const [prediou1, setPrediou1] = useState('');
+  const [persona1, setPersona1] = useState('');
+  const [Carpetapredial1, setCarpetapredial1] = useState('');
+  const [Nombrecompleto1, setNombrecompleto1] = useState('');
+  const [Obs1, setObs1] = useState('');
+  const [hasta11, sethasta1] = useState('');
+  const [Recibo11, setRecibo1] = useState('');
+  const [Pago1, setPago1] = useState('');
+  const [Obsubicacion1, setObsubicacion1] = useState('');
+  const [Texto1, setTexto1] = useState('');
   const [form, setForm] = useState({
     dni: '%',
     nombre: '%',
@@ -432,15 +446,6 @@ export default function Consulta(props) {
     const fecha = new Date();
     return ' ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' del ' + fecha.getUTCFullYear();
   }
-  /*   const changeDateTime = (fechacompleta) => {
-      var today = new Date(fechacompleta);
-      var dd = today.getDate();
-      var mm = today.getMonth() + 1; 
-      var yyyy = today.getFullYear();
-      today = dd + '/' + mm + '/' + yyyy;
-      return today;
-    } */
-
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
 
     if (obs === "EL CONTRIBUYENTE NO ADEUDA") {
@@ -488,11 +493,85 @@ export default function Consulta(props) {
 
   }
   const getImageSrc = (persona, nombrecompleto, predioU, obs) => {
-    const content = baseURL + "-" + cookies.get('id') + "-" + persona + "-" + nombrecompleto + "-" + predioU + "-" + generador + "-" + obs;
+    const content = baseURL + "LA MUNICIPALIDAD DISTRITAL DE SANTIAGO" + "-" + persona + "-" + nombrecompleto + "-" + predioU + "-" + generador + "-" + obs;
     const URL = `https://chart.googleapis.com/chart?chs=${SIZE}&cht=qr&chl=${content}&choe=UTF-8`;
     return URL;
   };
+  const changeRecibo = (rec) => {
+    var rec2;
+    switch (rec) {
+      case "C":
+        rec2 = 'CANCELADO';
+        break;
+      case "P":
+        rec2 = 'PENDIENTE';
+        break;
+      default:
+        break;
+    }
+    return rec2;
+  }
+  const imprimirPredialAlcabaTodos = (tt) => {
+    buscarNotarias(persona1, '%', generador, 'T');
+    const qrSize = 110;
+    let imageData = new Image(300, 300);
+    imageData.src = getImageSrc(form.contribuyente, persona1, prediou1, Obs1);
+    doc.addImage(imageData, "PNG", 100, 410, qrSize, qrSize);
+    doc.setFontSize(16);
+    doc.addImage(logo, 'JPEG', 20, 5);
+    doc.setFontSize(8);
+    doc.setDrawColor(0, 0, 0);
+    doc.text(100, 30, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO')
+    doc.text(100, 45, 'Dirección: AV. RUIZ NRO. S/N')
+    doc.text(100, 60, 'RUC: 20154432516')
+    //doc.setFont('courier');
+    doc.setFontSize(18);
+    doc.setFont("Arial", "bold");
+    doc.text(180, 170, 'CONSTANCIA DE NO DEUDOR', { maxWidth: 1024, align: "justify" })
+    //doc.text("This is example paragraph   1", 11,13,).setFontSize(8).setFont(undefined, 'bold');
+    doc.setFont("Arial", "normal");
+    //doc.text("This is example paragraph      2", 11,13,).setFontSize(8).setFont(undefined, 'normal');
+    doc.setFontSize(12);
+    //doc.internal.write(0, "Tw") // <- add this
+    /* doc.text('Que, la administrada ' + nombrecompleto +texto+ obs_ub+', se encuentra inscrita como ' +
+       'contribuyente en el registro predial que maneja la Administración Tributaria de la MUNICIPALIDAD DISTRITAL DE SANTIAGO con Carpeta N°' +
+       carpeta + ' por el código del predio: ' + predioU + ' ubicado en el distrito de SANTIAGO, Provincia y Departamento del Cusco,' +
+       ' habiendo cancelado el ' + changeGenerator(generador) + ' del Ejercicio Gravable ' + hasta +
+       ' con recibo de pago N° ' + recibo + ' en fecha ' + changeDateTime(f_pago) + ' y haciendo constar que: NO ADEUDA el ' +
+       changeGenerator(generador) + ' desde la fecha que es contribuyente hasta la actualidad.', 100, 250, { maxWidth: 400, align: 'justify' });
+     //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })*/
+    doc.text(tt, 100, 250, { maxWidth: 400, align: 'justify' });
+    //doc.text('Fecha:' + dateToday() + ' y Hora: ' + timeToday(), 325, 465, { maxWidth: 2300, align: 'justify' })
+    doc.text('Cusco,' + dateToday(), 335, 465, { maxWidth: 2300, align: 'justify' })
 
+    doc.setLineWidth(1);
+    doc.setDrawColor(255, 0, 0);
+    //line()
+    doc.setFontSize(8);
+    doc.text(142, 520, timeToday())
+    doc.setFontSize(6);
+    doc.line(28, 800, 570, 800);
+    // Optional - set properties on the document
+    doc.setProperties({
+      title: 'CONSTANCIA DE NO DEUDOR',
+      subject: 'Esta es una copia legitima del documento extraido del sistema',
+      author: 'Municipalidad Distrital de Santiago',
+      keywords: 'constancia no deudor, constancia, santiago',
+      creator: 'MDS2023'
+    });
+
+    doc.setFont("Arial", "bold");
+    doc.text(150, 810, 'MUNICIPALIDAD DISTRITAL DE SANTIAGO ')
+    doc.setFont("Arial", "normal");
+    doc.text(150, 818, 'Dirección: AV. RUIZ NRO. S/N - SANTIAGO / CUSCO')
+    doc.text(150, 826, 'Teléfono: S/N')
+    //var date = new Date();
+    //var filename = "MPU-" + predioU + ".pdf";
+    //doc.save(filename);
+    doc.autoPrint();
+    window.open(doc.output('bloburl'), '_blank');
+    window.location.reload(true);
+  }
   const imprimirPredialAlcaba = (persona, nombrecompleto, predioU, obs, texto) => {
 
     const qrSize = 110;
@@ -681,7 +760,7 @@ export default function Consulta(props) {
     /* console.log(result)
     console.log(generador) */
     var y = new Date().getFullYear();
-    
+
     const newdata = data.map((item) => {
       if (item.NRO_DOC === nrodoc) {
         return { ...item, notarias: result.data }
@@ -701,125 +780,159 @@ export default function Consulta(props) {
     setData(newdata)
     console.log(result.data)
   }
+  function recibos(contribuyente, generador, dato) {
+    console.log(contribuyente + '  ' + generador + '  ' + dato)
+    axios.get(UrlRecibos + '/' + contribuyente + '/' + generador + '/' + dato)
+      .then(response => {
+        //this.response = response.data
+        console.log("estado = "+response.data[0]['ESTADO'])
+        obsrec= response.data[0]['ESTADO'];
+        setobsrec(obsrec)
+   
+        //setobsrec(obsrec);
+        //obsrecibo = response.data[0].ESTADO
+      })
+     
+
+
+
+
+  }
+  const buscarNotariasforPrint = async () => {
+    const resulta = await axios.get(UrlNotarias + `/${form.contribuyente}/${form.dni}/${generador}/${'T'}`)
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Las impresiones son contabilizadas en la base de datos",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, imprimir'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        audit(form.contribuyente, '%', generador, user)
+        imprimirPredialAlcabaTodos(resulta.data[0]['TEXTO'])
+      }
+    })
+    
+    // audit(cont1, '%', generador, user)
+    //       imprimirPredialAlcabaTodos(result.data[0]['TEXTO'])
+    //       console.log(Texto1)
+    //Swal.fire("no puedes xd")
+
+
+
+
+  }
+/*   useEffect(() => {
+    recibos(form.contribuyente, generador, '%')
+
+  }, []); */
+
   const classes = useStyles();
- 
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
 
 
     <>
-     <Paper className={fixedHeightPaper}>
-     <Grid container justify="center">
-        <div class="container-fluid">
-    
-          <h5><b>Selecciona el generador : </b>
-            <select
-              //style={{width: '300px'}}
-              id="fruits"
-              onChange={(e) => setgenerador(e.target.value)}
-              aria-label="Default select example"
-              class="form-control form-control-sm">
+      <Paper className={fixedHeightPaper}>
+        <Grid container justify="center">
+          <div class="container-fluid">
+            <h5><b>Selecciona el generador : </b>
+              <select
+                //style={{width: '300px'}}
+                id="fruits"
+                onChange={(e) => setgenerador(e.target.value)}
+                aria-label="Default select example"
+                class="form-control form-control-sm">
 
-              <option value="PREDIA" selected>PREDIAL</option>
-              <option value="ALCABA">ALCABALA</option>
-              <option value="LIMPPU">LIMPIEZA</option>
-              <option value="IMPVEH">VEHICULAR</option>
+                <option value="PREDIA" selected>PREDIAL</option>
+                <option value="ALCABA">ALCABALA</option>
+                <option value="LIMPPU">LIMPIEZA</option>
+                <option value="IMPVEH">VEHICULAR</option>
 
-            </select> </h5>
-
-        </div>
-        <br></br> <br></br> <br></br>
-        <div className="container-fluid cew-9">
-          <div className="row">
-            <div className="col-12 col-sm-6 col-md-3">
-              <label><b>DNI/RUC</b></label>
-              <input
-                type="number"
-                required
-                className="form-control"
-                maxLength="11"
-                name="dni"
-                placeholder="Digita el DNI"
-                onChange={handleChange}
-                onKeyPress={(ev) => {
-                  if (ev.key === 'Enter') {
-                    // Do code here
-                    buscar(form.dni, form.nombre, form.contribuyente);
-                    ev.preventDefault();
-                  }
-                }}
-                autoFocus />
-              <br />
-            </div>
-            <div className="col-12 col-sm-6 col-md-6">
-
-              <label><b>APELLIDOS Y NOMBRES</b></label>
-              <input
-                type="text"
-                className="form-control"
-                name="nombre"
-                placeholder="Digita los apellidos"
-                onChange={handleChange}
-                onKeyPress={(ev) => {
-
-                  if (ev.key === 'Enter') {
-                    // Do code here
-                    buscar(form.dni, form.nombre, form.contribuyente);
-                    ev.preventDefault();
-                  }
-                }} />
-              <br />
-            </div>
-            <div className="col-12 col-sm-12 col-md-3">
-
-              <label><b>CODIGO PRED.</b></label>
-              <input
-                type="text"
-                className="form-control"
-                name="contribuyente"
-                placeholder="Digita el código predial"
-                onChange={handleChange}
-                onKeyPress={(ev) => {
-
-                  if (ev.key === 'Enter') {
-                    // Do code here
-                    buscar(form.dni, form.nombre, form.contribuyente);
-                    ev.preventDefault();
-                  }
-                }} />
-              <br />
-            </div>
-          </div>
-        </div>
-        <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscar(form.dni, form.nombre, form.contribuyente)}
-        >
-          Consultar &nbsp; <FaSearch />
-        </Button>
-      </Grid>
-              </Paper>
-              
-      
-      {/*  <h1>CONSTANCIA DE NO DEUDOR</h1> */}
-
-      <div className="form-group">
-        <div class="container-fluid">
-          <div class="row">
-
-            <br></br>
-            <div>
-
-            </div>
-
-            {/*  <button className="btn btn-primary" onClick={() => buscar()}>Consultar</button> */}
+              </select> </h5>
 
           </div>
-        </div>
+          <br></br> <br></br> <br></br>
+          <div className="container-fluid cew-9">
+            <div className="row">
+              <div className="col-12 col-sm-6 col-md-3">
+                <label><b>DNI/RUC</b></label>
+                <input
+                  type="number"
+                  required
+                  className="form-control"
+                  maxLength="11"
+                  name="dni"
+                  placeholder="Digita el DNI"
+                  onChange={handleChange}
+                  onKeyPress={(ev) => {
+                    if (ev.key === 'Enter') {
+                      // Do code here
+                      buscar(form.dni, form.nombre, form.contribuyente);
+                      ev.preventDefault();
+                    }
+                  }}
+                  autoFocus />
+                <br />
+              </div>
+              <div className="col-12 col-sm-6 col-md-6">
 
-      </div>
+                <label><b>APELLIDOS Y NOMBRES</b></label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="nombre"
+                  placeholder="Digita los apellidos"
+                  onChange={handleChange}
+                  onKeyPress={(ev) => {
+
+                    if (ev.key === 'Enter') {
+                      // Do code here
+                      buscar(form.dni, form.nombre, form.contribuyente);
+                      ev.preventDefault();
+                    }
+                  }} />
+                <br />
+              </div>
+              <div className="col-12 col-sm-12 col-md-3">
+
+                <label><b>CODIGO PRED.</b></label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="contribuyente"
+                  placeholder="Digita el código predial"
+                  onChange={handleChange}
+                  onKeyPress={(ev) => {
+
+                    if (ev.key === 'Enter') {
+                      // Do code here
+                      buscar(form.dni, form.nombre, form.contribuyente);
+                      ev.preventDefault();
+                    }
+                  }} />
+                <br />
+              </div>
+            </div>
+          </div>
+          <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscar(form.dni, form.nombre, form.contribuyente)}
+          >
+            Consultar &nbsp; <FaSearch />
+          </Button>
+
+        </Grid>
+      </Paper>
+
+
+
 
 
       <div class="container-fluid">
+        <br></br>
         <MaterialTable
 
           components={{
@@ -827,6 +940,9 @@ export default function Consulta(props) {
             Toolbar: props => (
               <div style={{ backgroundColor: '' }}>
                 <MTableToolbar {...props} />
+                <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscarNotariasforPrint()}>
+                  Imprimir constancia con todos los items &nbsp; <Print />
+                </Button>
                 {/* <div style={{padding: '0px 10px'}}>
               <Chip label="PREDIA" color="secondary" style={{marginRight: 5}}/>
               <Chip label="ALCABA" color="secondary" style={{marginRight: 5}}/>
@@ -938,6 +1054,7 @@ export default function Consulta(props) {
             //setPersona(rowData.PERSONA)
             //console.log(persona)
             //setGenerador(generador)
+            recibos(form.contribuyente, generador, '%')
             buscarNotarias(rowData.PERSONA, rowData.NRO_DOC, generador, '%');
             togglePanel();
           }}

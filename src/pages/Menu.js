@@ -28,10 +28,17 @@ const columns=[
   {title:'LIMPIEZA',field:'LIMPIEZA'}
 ];
 
+<<<<<<< HEAD
 const baseUrl="http://localhost:5000/api/personas";
 const UrlNotarias="http://localhost:5000/api/notarias";
 const UrlAuditorias="http://localhost:5000/api/auditorias";
 const baseContribuyente="http://localhost:5000/api/contribuyentes";
+=======
+const baseUrl="http://192.168.1.5:5000/api/personas";
+const UrlNotarias="http://192.168.1.5:5000/api/notarias";
+const UrlAuditorias="http://192.168.1.5:5000/api/auditorias";
+const baseContribuyente="http://192.168.1.5:5000/api/contribuyentes";
+>>>>>>> a7817d7ef71bcd920ffcede0532ff4ae27d02366
 
 
 

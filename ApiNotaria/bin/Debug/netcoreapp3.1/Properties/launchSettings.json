@@ -23,7 +23,7 @@
       "environmentVariables": {
         "Clave": "Valor"
       },
-      "applicationUrl": "http://10.0.0.216:5000"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

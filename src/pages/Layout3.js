@@ -181,7 +181,7 @@ export default function Layout3(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Bienvenido Rentas <b> {user}</b> {dni}- Al Sistema de Constancias de No Deudor 
+                        Bienvenido <b> {user}</b> al Sistema de Constancias de No Deudor 
                     </Typography>
                     {/*  <IconButton color="inherit"> */}
                     {/* Aqui iria Cerrar sesion gozuu */}

@@ -1,61 +1,109 @@
 /* import { makeStyles } from '@material-ui/core/styles'; */
+import clsx from 'clsx';
+import Grid from "@material-ui/core/Grid";
 import React, { useState, useEffect  } from 'react';
 import Swal from "sweetalert2";
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
 import '../css/Menu.css';
 import MaterialTable from 'material-table';
 import { Button } from "@material-ui/core";
 import { tableIcons } from "./IconProvider";
 import { LocalPrintshop, RemoveRedEye } from '@material-ui/icons';
-import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
-import { MTableToolbar } from 'material-table'
-import { Edit } from '@material-ui/icons'
 import { Print } from '@material-ui/icons'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { logo } from './images';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaSearch } from "@react-icons/all-files/fa/FaSearch";
-import Grid from "@material-ui/core/Grid";
-//import Chip from "@material-ui/core/Chip";
-
-import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TabList from '@material-ui/core/Tab';
-import TabPanel from '@material-ui/core/Tab';
-
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@mui/material/Box';
-// import 'react-tabs/style/react-tabs.css';
-
 import 'jspdf-autotable';
-
-
-//columnas de las tablas con su identificador "field"
 
 
 const baseUrl = "http://localhost:5000/api/personas";
 const UrlNotarias = "http://localhost:5000/api/notarias";
 const UrlAuditorias = "http://localhost:5000/api/auditorias";
 const UrlRecibos = "http://localhost:5000/api/recibo";
-
-
-/**tabs**/
-
-
-/**
- *************************************************
- **funcion para consultar datos de contribuyente**
- *************************************************
- */
-
-
+const drawerWidth = 220;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(7),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  fixedHeight: {
+    height: 240,
+  },
+}));
 export default function Cuenta(props) {
   const columns = [
     { title: 'PERSONA', field: 'PERSONA' },
@@ -73,13 +121,9 @@ export default function Cuenta(props) {
   const [user1, setUser1] = useState(cookies.get('NOMBRE'));
   const [dni1, setDni1] = useState(cookies.get('CLAVE'));
   const [cont1, setCont1] = useState(cookies.get('CONTRIBUYENTE'));
-
   const [generador, setgenerador] = useState('PREDIA');
-
-
   const [prediou1, setPrediou1] = useState('');
   const [persona1, setPersona1] = useState('');
-
   const [Carpetapredial1, setCarpetapredial1] = useState('');
   const [Nombrecompleto1, setNombrecompleto1] = useState('');
   const [Obs1, setObs1] = useState('');
@@ -88,10 +132,6 @@ export default function Cuenta(props) {
   const [Pago1, setPago1] = useState('');
   const [Obsubicacion1, setObsubicacion1] = useState('');
   const [Texto1, setTexto1] = useState('');
-  
-
-
-
   const SIZE = "300x300";
   const baseURL = "FIRMADO-POR";
   const doc = new jsPDF('p', 'pt', 'a4', true, {
@@ -102,68 +142,16 @@ export default function Cuenta(props) {
       // try changing the user permissions granted
     }
   });
-
-
-
   const [data, setData] = useState([]);
   var user = '';
   var [obsrec, setobsrec] = useState("");
-  
-
-  /***
-   ***************************************
-   ***inicializar variables de busqueda***
-   ***************************************
-   */
   const [form, setForm] = useState({
     dni: dni1,//dni inicializada con el coockie guardado
     nombre: user1,//nombre inicializada con el coockie guardado
     contribuyente: cont1//contribuyente inicializada con el coockie guardado
   });
 
-  /**
-   ***************************************
-   **
-   ***************************************
-   **/
-  /***tabs****/
   const [value, setValue] = React.useState('PREDIA');
-
-
-
-
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  // const handleChange2 = e => {
-  //   const newValue2  = e.target;
-  //   setValue(newValue2);
-  //   console.log(newValue2);
-
-  // }
-  //////////////////////////////////////////////
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value
-    });
-    
-
-
-  }
-  // const [valor, setValor] = React.useState("PREDIAL");
-  /*  const handleSelect = (e) => {
-     console.log(e);
-   } */
-   const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success',
-      cancelButton: 'btn btn-danger'
-    },
-    buttonsStyling: false
-  })
   const audit = (persona, carpeta, generador) => {
     axios.post(UrlAuditorias, {
       CONTRIBUYENTE: persona,
@@ -173,16 +161,6 @@ export default function Cuenta(props) {
     }
     )
   }
-  /* 
-    const recibo = (contribuyente, generador, dato) => {
-       axios.get(UrlRecibos + `/${contribuyente}/${generador}/${dato}`)
-    
-          .then(response => {
-          
-            console.log(response.data);
-            console.log(response[1].ESTADO)
-          })
-    } */
   function recibos(contribuyente, generador, dato) {
     console.log(contribuyente + '  ' + generador + '  ' + dato)
     axios.get(UrlRecibos + '/' + contribuyente + '/' + generador + '/' + dato)
@@ -261,19 +239,16 @@ export default function Cuenta(props) {
     }
     // return buscar;
   }
-
-  ///ME QUEDE AQUI :V
-
   const PanelTable = ({ listapersonas }) => {
     //console.log(generador);
     //buscarNotarias(persona.persona, nrodoc.nrodoc, generador,"%")
     //console.log(buscarNotarias(persona.persona, nrodoc.nrodoc, generador,"%"))
     const panelColumns = [
       { title: "PERSONA", field: "PERSONA" },
-      { title: "CARPETA PREDIAL", field: "CARPETAPREDIAL" },
+      { title: "CARPETA", field: "CARPETAPREDIAL" },
       { title: "NOMBRE COMPLETO", field: "NOMBRE_COMPLETO" },
       { title: "NRO DOC", field: "NRO_DOC" },
-      { title: "PREDIO U", field: "PREDIO_U" },
+      { title: "PREDIO/PLACA", field: "PREDIO_U" },
       { title: "OBS", field: "OBS" },
       { title: "AREA T.", field: "AREA_TERRENO" },
       { title: "HASTA", field: "HASTA" },
@@ -291,6 +266,10 @@ export default function Cuenta(props) {
           body: {
             emptyDataSourceMessage: "No hay datos para mostrar"
           },
+          
+            header: {
+              actions: 'Impresión Individual',
+            },
           toolbar: {
             exportCSVName: "Exportar como CSV",
             exportPDFName: "Exportar como PDF",
@@ -363,61 +342,11 @@ export default function Cuenta(props) {
               })
           }
         ]}
-        localization2={{
-          body: {
-            emptyDataSourceMessage: 'No hay datos por mostrar',
-            addTooltip: 'Añadir',
-            deleteTooltip: 'Eliminar',
-            editTooltip: 'Editar',
-            filterRow: {
-              filterTooltip: 'Filtrar',
-            },
-            editRow: {
-              deleteText: '¿Segura(o) que quiere eliminar?',
-              cancelTooltip: 'Cancelar',
-              saveTooltip: 'Guardar',
-            },
-          },
-          grouping: {
-            placeholder: "Arrastre un encabezado aquí para agrupar",
-            groupedBy: 'Agrupado por',
-          },
-          header: {
-            actions: 'Acciones',
-          },
-          pagination: {
-            firstAriaLabel: 'Primera página',
-            firstTooltip: 'Primera página',
-            labelDisplayedRows: '{from}-{to} de {count}',
-            labelRowsPerPage: 'Filas por página:',
-            labelRowsSelect: 'filas',
-            lastAriaLabel: 'Ultima página',
-            lastTooltip: 'Ultima página',
-            nextAriaLabel: 'Pagina siguiente',
-            nextTooltip: 'Pagina siguiente',
-            previousAriaLabel: 'Pagina anterior',
-            previousTooltip: 'Pagina anterior',
-          },
-          toolbar: {
-            exportCSVName: "Exportar como CSV",
-            exportPDFName: "Exportar como PDF",
-            addRemoveColumns: 'Agregar o eliminar columnas',
-            exportAriaLabel: 'Exportar',
-            exportName: 'Exportar a CSV',
-            exportTitle: 'Exportar',
-            nRowsSelected: '{0} filas seleccionadas',
-            searchPlaceholder: 'Buscar',
-            searchTooltip: 'Buscar',
-            showColumnsAriaLabel: 'Mostrar columnas',
-            showColumnsTitle: 'Mostrar columnas',
-          }
-        }}
+       
       />
     );
   };
-  
-
-    const changeGenerator = (generator) => {
+  const changeGenerator = (generator) => {
       var generador;
       switch (generator) {
         case "PREDIA":
@@ -486,52 +415,51 @@ export default function Cuenta(props) {
     const fecha = new Date();
     return ' ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' del ' + fecha.getUTCFullYear();
   }
-
-  
   const verificarDeuda = (persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, generador, obs_ub, texto) => {
     /* obsrec = recibos('00012', 'PREDIA', 'PU00001A'); */
-     recibos(persona, generador, predioU); 
-      if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec === 'C' ) {
-        /* console.log(obsrec)
-        console.log("observacion = " + obsrec) */
-        let timerInterval
-        Swal.fire({
-          title: 'Estamos generando la impresión',
-          html: 'Esto tomará unos <b></b> milisegundos.',
-          timer: 2000,
-          timerProgressBar: true,
-          didOpen: () => {
-            Swal.showLoading()
-            const b = Swal.getHtmlContainer().querySelector('b')
-            timerInterval = setInterval(() => {
-              b.textContent = Swal.getTimerLeft()
-            }, 100)
-          },
-          willClose: () => {
-            clearInterval(timerInterval)
-          }
-        }).then((result) => {
-          if (generador === 'PREDIA' || generador === 'ALCABA') {
-            imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else if (generador === 'IMPVEH') {
-            imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-          else {
-            imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
-            audit(persona, predioU, generador, user)
-          }
-        })
-      }
-      else {
-        Swal.fire({
-          title: "<b>NO PUEDES IMPRIMIR</b>",
-          html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' pero no cancelo el recibo',
-          confirmButtonText: "Cancelar",
-          icon: "error"
-        })
+    recibos(persona, generador, predioU); 
+
+    if (obs === "EL CONTRIBUYENTE NO ADEUDA" && obsrec ==="C") {
+      console.log(obsrec)
+      console.log("observacion = " + obsrec)
+      let timerInterval
+      Swal.fire({
+        title: 'Estamos generando la impresión',
+        html: 'Esto tomará unos <b></b> milisegundos.',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+            b.textContent = Swal.getTimerLeft()
+          }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        if (generador === 'PREDIA' || generador === 'ALCABA') {
+          imprimirPredialAlcaba(persona, nombrecompleto, predioU, obs, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else if (generador === 'IMPVEH') {
+          imprimirVehicular(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+        else {
+          imprimirLimpieza(persona, carpeta, nombrecompleto, predioU, obs, hasta, recibo, f_pago, obs_ub, texto)
+          audit(persona, predioU, generador, user)
+        }
+      })
+    }
+    else {
+      Swal.fire({
+        title: "<b>NO PUEDES IMPRIMIR</b>",
+        html: `<b>OBSERVACION: </b>` + obs + ` hasta el año ` + hasta + ' y no cancelo el recibo',
+        confirmButtonText: "Cancelar",
+        icon: "error"
+      })
 
 
     }
@@ -539,7 +467,7 @@ export default function Cuenta(props) {
 
   }
   const getImageSrc = (persona, nombrecompleto, predioU, obs) => {
-    const content = baseURL + "-" + cookies.get('id') + "-" + persona + "-" + nombrecompleto + "-" + predioU + "-" + generador + "-" + obs;
+    const content = baseURL + " LA MUNICIPALIDAD DISTRITAL DE SANTIAGO" + "-" + persona + "-" + nombrecompleto + "-" + predioU + "-" + generador + "-" + obs;
     const URL = `https://chart.googleapis.com/chart?chs=${SIZE}&cht=qr&chl=${content}&choe=UTF-8`;
     return URL;
   };
@@ -604,12 +532,11 @@ export default function Cuenta(props) {
     window.open(doc.output('bloburl'), '_blank');
     window.location.reload(true);
   }
-
   const imprimirPredialAlcabaTodos = (tt) => {
     buscarNotarias(persona1, dni1, generador, 'T');
     const qrSize = 110;
     let imageData = new Image(300, 300);
-    imageData.src = getImageSrc(persona1, Nombrecompleto1, prediou1, Obs1);
+    imageData.src = getImageSrc(cont1, user1, prediou1, Obs1);
     doc.addImage(imageData, "PNG", 100, 410, qrSize, qrSize);
     doc.setFontSize(16);
     doc.addImage(logo, 'JPEG', 20, 5);
@@ -666,7 +593,6 @@ export default function Cuenta(props) {
     window.open(doc.output('bloburl'), '_blank');
     window.location.reload(true);
   }
-  
   const imprimirVehicular = (persona, nombrecompleto, predioU, obs, texto) => {
 
     const qrSize = 110;
@@ -854,46 +780,61 @@ export default function Cuenta(props) {
       recibos(cont1,generador,'%')
       buscar('%', '25304147')
     }, []);
-  //Renderiza la subtabla de la tabla principal
-  /*     useEffect(() => {
-        
-        buscarNotarias(persona,dni,generador,'%')
-        
-      }, [persona]) */
-  // const classes = useStyles();
-  const [nomb, setNomb] = useState(cookies.get('NOMBRE'));
-  const [dni, setDni] = useState(cookies.get('CLAVE'));
-  const [cont, setCont] = useState(cookies.get('CONTRIBUYENTE'));
-
-
+    const classes = useStyles();
+ 
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
 
 
     <>
-      <Grid container justify="center">
+        <Paper elevation={3} className={fixedHeightPaper}>
+     <Grid container justify="center">
         <div className="container-fluid cew-9">
           <div className="row">
             <div className="col-12 col-sm-6 col-md-3">
-              <label><h6><b>Seleccione el generador</b></h6></label>
-              <br /> <select
-                //style={{width: '300px'}}
-                id="fruits"
-                onChange={(e) => {
-                  setgenerador(e.target.value);
-                  buscar(form.nombre, form.contribuyente)
-                }}
-                aria-label="Default select example"
-                class="form-control form-control-sm-3">
-                <option value="PREDIA" selected >PREDIAL</option>
-                <option value="ALCABA">ALCABALA</option>
-                <option value="LIMPPU">LIMPIEZA</option>
-                <option value="IMPVEH">VEHICULAR</option>
-
-              </select> 
-              <br />
+              
             </div>
             <div className="col-12 col-sm-6 col-md-3">
-              <label><b>DNI/RUC</b></label>
+           
+            </div>
+            <div className="col-12 col-sm-6 col-md-6">
+
+            </div>
+          
+          </div>
+        </div>
+    
+
+        </Grid>
+        <Grid container justify="center">
+        <div class="container-fluid">
+          <h5><b>Selecciona el generador: </b>
+           </h5>
+
+        </div>
+        <br></br> <br></br> <br></br>
+        <div className="container-fluid cew-9">
+          <div className="row">
+            <div className="col-12 col-sm-6 col-md-3">
+            <label><h6><b>Seleccione el generador</b></h6></label>
+            <select
+              //style={{width: '300px'}}
+              id="fruits"
+              onChange={(e) => setgenerador(e.target.value)}
+              aria-label="Default select example"
+              class="form-control form-control-sm">
+
+              <option value="PREDIA" selected>PREDIAL</option>
+              <option value="ALCABA">ALCABALA</option>
+              <option value="LIMPPU">LIMPIEZA</option>
+              <option value="IMPVEH">VEHICULAR</option>
+
+            </select>
+              <br />
+            </div>
+            <div className="col-12 col-sm-6 col-md-6">
+
+            <label><b>DNI/RUC</b></label>
               <input
                 type="number"
                 required
@@ -906,9 +847,10 @@ export default function Cuenta(props) {
               />
               <br />
             </div>
-            <div className="col-12 col-sm-6 col-md-6">
+            <div className="col-12 col-sm-12 col-md-3">
 
-              <label><b>APELLIDOS Y NOMBRES</b></label>
+       
+            <label><b>APELLIDOS Y NOMBRES</b></label>
               <input
                 type="text"
                 className="form-control"
@@ -918,93 +860,36 @@ export default function Cuenta(props) {
               />
               <br />
             </div>
-            {/* <div className="col-12 col-sm-12 col-md-3">
-
-              <label><b>CODIGO PRED.</b></label>
-              <input
-                type="text"
-                className="form-control"
-                name="contribuyente"
-                placeholder="Digita el código predial"
-                //onChange={handleChange}
-                value={cont1}
-              // onKeyPress={(ev) => {
-
-              //   if (ev.key === 'Enter') {
-              //     // Do code here
-              //     buscar(form.nombre,form.contribuyente);
-              //     ev.preventDefault();
-              //   }
-              // }} 
-
-              />
-              <br />
-            </div> */}
-          
           </div>
         </div>
+        <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscarNotariasforPrint() }>
+          Imprimir constancia con todos los items &nbsp; <Print />
+        </Button>
       </Grid>
+    </Paper>
+  
+
      
-      {/*  <h1>CONSTANCIA DE NO DEUDOR</h1> */}
-
-      <div className="form-group">
-        <div class="container-fluid">
-          <div class="row">
-
-            <br></br>
-            
-
-            {/*  <button className="btn btn-primary" onClick={() => buscar()}>Consultar</button> */}
-
-          </div>
-        </div>
-
-      </div>
-      <div>
-            <Button style={{backgroundColor: 'orange'}} onClick={()=>buscarNotariasforPrint()}>Imprimir todos xdddd
-            </Button>
-            </div>
-
       <div class="container-fluid">
+      <br></br>
         <MaterialTable
-
-          // components={{
-          //   Actions: (props) => {
-          //         return(
-          //           <Button
-          //             onClick={() => Swal.fire("IMPRIMIR")}
-          //           >Imprimir todo</Button>
-          //         );
-          //       },
-          //   Toolbar: props => (
-          //     <div style={{ backgroundColor: '' }}>
-          //       <MTableToolbar {...props} />
-          //       {/* <div style={{padding: '0px 10px'}}>
-          //     <Chip label="PREDIA" color="secondary" style={{marginRight: 5}}/>
-          //     <Chip label="ALCABA" color="secondary" style={{marginRight: 5}}/>
-          //     <Chip label="LIMPPU" color="secondary" style={{marginRight: 5}}/>
-          //     <Chip label="IMPVEH" color="secondary" style={{marginRight: 5}}/>
-    
-          //   </div> */}
-          //     </div>
-
-          //   )
-          // }}
-          
           icons={tableIcons}
           columns={columns}
           data={data}
           title={'Selecciona la persona'}
            
           actions={[
+
             {
               icon: () => <Print />,
             tooltip: 'Imprimir Todos xddd',
             isFreeAction: true,
             onClick: (event) => buscarNotariasforPrint()
         },
-            
-           
+
+
+
+
             {
               
               icon: () => <RemoveRedEye />,
@@ -1062,10 +947,11 @@ export default function Cuenta(props) {
             exportButton: {
               csv: true,
               pdf: false,
-              earch: false,
+              
             },
+            search: false,
             sorting: true,
-            exportButton: true,
+            exportButton: false,
             //searchAutoFocus: true,
             //minBodyHeight: "85vh",
             // maxBodyHeight: "85vh",
@@ -1084,6 +970,9 @@ export default function Cuenta(props) {
           
           detailPanel={[
             {
+              header: {
+            actions: 'Actions' //  actions: 'Any text'
+        },
               tooltip: "Ver Detalles",
               
               render: (rowData) => {
