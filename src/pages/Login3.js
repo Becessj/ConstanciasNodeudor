@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login3(props) {
   const navigate = useNavigate();
-  const baseUrl = "http://10.0.0.215:5000/api/rentas";
+  const baseUrl = "http://localhost:5000/api/rentas";
   const cookies = new Cookies();
   const [form, setForm] = useState({
     username: '',

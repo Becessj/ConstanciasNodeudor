@@ -1,4 +1,4 @@
-var baseUrl='http://10.0.0.215:5000/api/usuarios/';
+var baseUrl='http://localhost:5000/api/usuarios/';
 
 window.onload = function() {
  
