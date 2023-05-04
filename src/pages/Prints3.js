@@ -24,7 +24,7 @@ const dateToday=()=>{
     const fecha = new Date();
     return dias_semana[fecha.getDay()] + ', ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' del ' + fecha.getUTCFullYear();
 }
-const UrlConteos="http://localhost:5000/api/conteos";
+const UrlConteos="http://10.0.0.215:5000/api/conteos";
 
 export default function Prints3() {
   const doc = new jsPDF('p', 'pt', 'a4', true);

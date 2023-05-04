@@ -45,7 +45,7 @@ Versions will be released as we gather and test new PRs.
 As there are a lot of browsers being supported it might take a while to accept a PR, we will use the feedback from other users too.
 
 You can use the `raphaelTest.html` to try things, you need to start a server in the root dir to start testing things there.
-Something like running `python -m SimpleHTTPServer` in the `raphael` directory and hitting `http://localhost:8000/dev/raphaelTest.html` with the browser. You should run `npm run start` before this can work.
+Something like running `python -m SimpleHTTPServer` in the `raphael` directory and hitting `http://10.0.0.215:8000/dev/raphaelTest.html` with the browser. You should run `npm run start` before this can work.
 
 ## Collaborators
 

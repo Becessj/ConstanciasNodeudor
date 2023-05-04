@@ -21,10 +21,10 @@ import Paper from '@material-ui/core/Paper';
 import 'jspdf-autotable';
 
 
-const baseUrl = "http://localhost:5000/api/personas";
-const UrlNotarias = "http://localhost:5000/api/notarias";
-const UrlAuditorias = "http://localhost:5000/api/auditorias";
-const UrlRecibos = "http://localhost:5000/api/recibo";
+const baseUrl = "http://10.0.0.215:5000/api/personas";
+const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
+const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
+const UrlRecibos = "http://10.0.0.215:5000/api/recibo";
 const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -16,9 +16,9 @@ import { Report } from '@material-ui/icons';
 import buscar from '../pages/Cuenta.js';
 import axios from 'axios';
 
-const baseUrl = "http://localhost:5000/api/personas";
-const UrlNotarias = "http://localhost:5000/api/notarias";
-const UrlAuditorias = "http://localhost:5000/api/auditorias";
+const baseUrl = "http://10.0.0.215:5000/api/personas";
+const UrlNotarias = "http://10.0.0.215:5000/api/notarias";
+const UrlAuditorias = "http://10.0.0.215:5000/api/auditorias";
 
 
 const cookies = new Cookies();

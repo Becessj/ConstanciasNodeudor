@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login2(props) {
   const navigate = useNavigate();
-  const baseUrl = "http://localhost:5000/api/contribuyentes";
+  const baseUrl = "http://10.0.0.215:5000/api/contribuyentes";
 
   const cookies = new Cookies();
 

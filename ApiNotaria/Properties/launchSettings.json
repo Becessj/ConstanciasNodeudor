@@ -3,11 +3,11 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://10.0.0.215:5000",
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost/",
+      "applicationUrl": "http://10.0.0.215/",
       "sslPort": 0
     }
   },
@@ -23,7 +23,7 @@
       "environmentVariables": {
         "Clave": "Valor"
       },
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://10.0.0.215:5000"
     }
   }
 }

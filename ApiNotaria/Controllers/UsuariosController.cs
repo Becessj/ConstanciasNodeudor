@@ -42,7 +42,7 @@ namespace Notaria.Controllers
             {
                 return NotFound();
             }
-            Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:3000");
+            Response.Headers.Add("Access-Control-Allow-Origin", "http://10.0.0.215:3000");
             Console.WriteLine("si entró compilado 2");
             return usuarios;
         }
