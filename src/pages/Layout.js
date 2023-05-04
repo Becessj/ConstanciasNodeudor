@@ -124,13 +124,13 @@ export default function Layout(props) {
     navigate("/")
   
     Swal.fire(
-        'SESIÓN CERRADA',
+        'SESIÓN CERRADA',    
         '',
         'error'
       );
   }
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };

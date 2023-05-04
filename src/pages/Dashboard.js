@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import Chart from './Chart';
-import Prints3 from './Prints3';
+import Prints from './Prints';
 import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 import '../css/Menu.css';
@@ -25,6 +25,7 @@ function Copyright() {
 const cookies = new Cookies();
 
 const drawerWidth = 220;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -107,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
   const [user, setUser] = useState(cookies.get('id'));
   const classes = useStyles();
+ 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -118,7 +120,7 @@ export default function Dashboard(props) {
        
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Prints3 />
+                <Prints />
               </Paper>
             </Grid>
             

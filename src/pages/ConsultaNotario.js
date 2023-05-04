@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 600,
   },
 }));
 export default function ConsultaNotario(props) {
@@ -131,9 +131,6 @@ export default function ConsultaNotario(props) {
     console.log(name);
 
   }
-  /*  const handleSelect = (e) => {
-     console.log(e);
-   } */
   const cookies = new Cookies();
 
   const audit = (persona, carpeta, generador) => {
@@ -180,8 +177,10 @@ export default function ConsultaNotario(props) {
               if(response.data[0]['OBS']== "EL CONTRIBUYENTE TIENE DEUDA PENDIENTE"){
                 Swal.fire({
                   icon: 'error',
-                  title: response.data[0]['OBS'],
-                  html: '<div class="align-left"><b>PERSONA:</b> '+response.data[0]['PERSONA'] +'<br>'+
+                  title: '<div style="font-size: 20px">'+response.data[0]['OBS'] +'<br>'+'</div>',
+                              footer: '<a href="">Municipalidad Distrital de Santiago</a>',
+                  width: 250,
+                  html: '<div class="align-left" style="font-size: 18px"><b>PERSONA:</b> '+response.data[0]['PERSONA'] +'<br>'+
                                                 '<b>NOMBRES:</b> '+response.data[0]['NOMBRE_COMPLETO'] +'<br>'+
                                                 '<b>DNI:</b> '+response.data[0]['NRO_DOC'] +'<br>'+
                                                 '<b>UBICACION:</b> '+response.data[0]['OBS_UBICACION'] +'<br>'+'</div>',
@@ -189,12 +188,14 @@ export default function ConsultaNotario(props) {
                 }).then((result) => {
                   window.location.reload(true);
                 });
+                audit(response.data[0]['PERSONA'], 'CONSULTA', generador, user)
               }
               else{
                 Swal.fire({
                   icon: 'success',
-                  title: response.data[0]['OBS'],
-                  html: '<div class="align-left"><b>PERSONA:</b> '+response.data[0]['PERSONA'] +'<br>'+
+                  title: '<div style="font-size: 20px">'+response.data[0]['OBS'] +'<br>'+'</div>',
+                  width: 250,
+                  html: '<div class="align-left" style="font-size: 18px"><b>PERSONA:</b> '+response.data[0]['PERSONA'] +'<br>'+
                                                 '<b>NOMBRES:</b> '+response.data[0]['NOMBRE_COMPLETO'] +'<br>'+
                                                 '<b>DNI:</b> '+response.data[0]['NRO_DOC'] +'<br>'+
                                                 '<b>UBICACION:</b> '+response.data[0]['OBS_UBICACION'] +'<br>'+'</div>',
@@ -202,6 +203,7 @@ export default function ConsultaNotario(props) {
                 }).then((result) => {
                   window.location.reload(true);
                 });
+                audit(response.data[0]['PERSONA'], 'CONSULTA', generador, user)
               }
              
             }
@@ -231,9 +233,6 @@ export default function ConsultaNotario(props) {
         })
     }
   }
-
-
-
   const buscarNotarias = async (persona, nrodoc, generador, clave) => {
     const result = await axios.get(UrlNotarias + `/${persona}/${nrodoc}/${generador}/${clave}`)
     /* console.log(result)
@@ -259,32 +258,14 @@ export default function ConsultaNotario(props) {
     setData(newdata)
     console.log(result.data)
   }
-  /*   useEffect(() => {
-      if (!cookies.get('id')) {
-  
-        props.history.push('./');
-      }
-    }, []); */
-  //Renderiza la subtabla de la tabla principal
-  /*     useEffect(() => {
-        
-        buscarNotarias(persona,dni,generador,'%')
-        
-      }, [persona]) */
-  // const classes = useStyles();
-
   return (
-
-
-    <>
-          <Grid item xs={12} md={4} lg={3}>
-   
-      <Paper className={fixedHeightPaper}>
-          <Grid container justify="center">
-            <div className="container-fluid cew-9">
-              <div className="row">
-                  <div class="container-fluid">
-                  <label><b>GENERADOR :</b></label>
+    <> 
+      <Grid item xs={12} md={8} lg={9}>
+          <Paper className={fixedHeightPaper}>
+          <div className="row">
+                          
+                          <div className="col-6">
+                          <label><b>GENERADOR :</b></label>
                         <select
                           //style={{width: '300px'}}
                           id="fruits"
@@ -298,63 +279,58 @@ export default function ConsultaNotario(props) {
                           <option value="IMPVEH">VEHICULAR</option>
 
                         </select>
-              
-
+      
+                          </div>
                   </div>
-
-                 
-              </div>
-            </div>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} md={8} lg={9}>
-          <Paper className={fixedHeightPaper}>
           <div className="row">
-          <div className="col-4">
-              <label><b>CODIGO PERSONA</b></label>
-              <input
-                type="text"
-                className="form-control"
-                name="contribuyente"
-                placeholder="Digita el código de persona"
-                onChange={handleChange}
-                onKeyPress={(ev) => {
+                    <div className="col-12">
+                        <label><b>CODIGO PERSONA</b></label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="contribuyente"
+                          placeholder="Digita el código de persona"
+                          onChange={handleChange}
+                          onKeyPress={(ev) => {
 
-                  if (ev.key === 'Enter') {
-                    // Do code here
-                    buscar(form.dni, form.nombre, form.contribuyente);
-                    ev.preventDefault();
-                  }
-                }} autoFocus/>
+                            if (ev.key === 'Enter') {
+                              // Do code here
+                              buscar(form.dni, form.nombre, form.contribuyente);
+                              ev.preventDefault();
+                            }
+                          }} autoFocus/>
 
-              </div>
-              <div className="col-8 ">
-                <label><b>DNI/RUC</b></label>
-                <input
-                  type="number"
-                  required
-                  className="form-control"
-                  maxLength="11"
-                  name="dni"
-                  placeholder="Digita el DNI"
-                  onChange={handleChange}
-                  onKeyPress={(ev) => {
-                    if (ev.key === 'Enter') {
-                      // Do code here
-                      buscar(form.dni, form.nombre, form.contribuyente);
-                      ev.preventDefault();
-                    }
-                  }}
-                  /* autoFocus */ />
+                    </div>
+              
+            </div>
+            <div className="row">
+                          
+                    <div className="col-12">
+                      <label><b>DNI/RUC</b></label>
+                      <input
+                        type="number"
+                        required
+                        className="form-control"
+                        maxLength="11"
+                        name="dni"
+                        placeholder="Digita el DNI"
+                        onChange={handleChange}
+                        onKeyPress={(ev) => {
+                          if (ev.key === 'Enter') {
+                            // Do code here
+                            buscar(form.dni, form.nombre, form.contribuyente);
+                            ev.preventDefault();
+                          }
+                        }}
+                        /* autoFocus */ />
 
-              </div>
-        </div>
-<br />
+                    </div>
+            </div>
+<br></br>
               <div className="col-12 col-sm-6 col-md-3">
-              <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscar(form.dni, form.nombre, form.contribuyente)}>
-                Consultar &nbsp; <FaSearch />
-              </Button>
+                  <Button color="primary" size="large" type="submit" variant="contained" onClick={() => buscar(form.dni, form.nombre, form.contribuyente)}>
+                    Consultar &nbsp; <FaSearch />
+                  </Button>
               </div>
           </Paper>
        </Grid>
